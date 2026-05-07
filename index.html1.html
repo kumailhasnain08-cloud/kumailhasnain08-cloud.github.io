@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Burhani Tools – Quality Hand & Power Tools</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<script>
+  const SHEETS_ENABLED = true;
+  const SHEET_CSV_URL  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSUPfH3mvrvT3w_PPmmAXSlRnsG01Dizfc1QOGMf0DvAXMFtqpbZxAH4j1I2mOb9A29T5G3djMi8h19/pub?output=csv';
+</script>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#1a1208;
+  --white:#fffdf8;
+  --cream:#faf6ef;
+  --cream2:#f3ece0;
+  --brown:#8b5e2a;
+  --brown-dark:#6b4820;
+  --brown-light:#c49a6c;
+  --brown-pale:#f0e4d0;
+  --brown-border:#d9c4a8;
+  --grey-100:#ede8df;
+  --grey-200:#d9cfc0;
+  --grey-400:#a89880;
+  --grey-600:#6e5c48;
+  --grey-800:#3a2e22;
+  --wa:#25D366;
+  --wa-dark:#1da851;
+  --font:'Inter',sans-serif;
+  --nav-h:64px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--white);color:var(--black);font-size:14px;line-height:1.5;overflow-x:hidden}
+
+/* FLOATING SOCIAL BUTTONS */
+.social-float-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 9999;
+    align-items: flex-end;
+}
+.social-float-btn {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 13px 20px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(0,0,0,.15);
+    transition: all .2s;
+}
+.social-float-btn.wa { background: var(--wa); }
+.social-float-btn.wa:hover { background: var(--wa-dark); transform: translateY(-2px); box-shadow: 0 4px 30px rgba(37,211,102,.4); }
+.social-float-btn.ig { background: #E1306C; }
+.social-float-btn.ig:hover { background: #C13584; transform: translateY(-2px); box-shadow: 0 4px 30px rgba(225,48,108,.4); }
+.social-float-btn.fb { background: #1877F2; }
+.social-float-btn.fb:hover { background: #166FE5; transform: translateY(-2px); box-shadow: 0 4px 30px rgba(24,119,242,.4); }
+.social-float-btn svg { width: 18px; height: 18px; flex-shrink: 0; fill: currentColor; }
+
+/* TOPBAR */
+.topbar{background:var(--brown-dark);color:rgba(255,255,255,.82);padding:7px 40px;display:flex;align-items:center;justify-content:space-between;font-size:12px;gap:12px}
+.topbar-left{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.topbar-left a{color:rgba(255,255,255,.72);text-decoration:none;transition:color .15s}
+.topbar-left a:hover{color:#fff}
+.topbar-right{display:flex;align-items:center;gap:14px;flex-shrink:0}
+.topbar-right a{color:rgba(255,255,255,.7);text-decoration:none;transition:color .15s}
+.topbar-right a:hover{color:#fff}
+.topbar-wa{display:flex;align-items:center;gap:6px;background:var(--wa);color:#fff!important;padding:4px 12px;border-radius:20px;font-weight:600;font-size:11px}
+.topbar-wa:hover{background:var(--wa-dark)!important}
+.tdiv{color:rgba(255,255,255,.25)}
+
+/* MAIN NAV */
+.main-nav{background:var(--white);border-bottom:1px solid var(--brown-border);position:sticky;top:0;z-index:500;box-shadow:0 1px 8px rgba(139,94,42,.07)}
+.nav-inner{max-width:1380px;margin:0 auto;padding:0 40px;display:flex;align-items:center;height:var(--nav-h)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;margin-right:28px}
+.nav-logo-img{width:44px;height:44px;object-fit:contain;mix-blend-mode:multiply}
+.nav-logo-text{display:flex;flex-direction:column;line-height:1.15}
+.nav-logo-name{font-size:16px;font-weight:700;color:var(--black);letter-spacing:-.3px}
+.nav-logo-sub{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--brown)}
+.nav-cats{display:none}
+.nav-item{position:relative;display:flex;align-items:center}
+.nav-item>a,.nav-item>button{display:flex;align-items:center;gap:4px;padding:0 12px;height:var(--nav-h);color:var(--grey-800);font-size:13px;font-weight:500;text-decoration:none;border:none;background:none;cursor:pointer;font-family:var(--font);white-space:nowrap;transition:color .15s;border-bottom:2px solid transparent}
+.nav-item>a:hover,.nav-item>button:hover,.nav-item:hover>a,.nav-item:hover>button{color:var(--brown);border-bottom-color:var(--brown)}
+.chev{font-size:9px;color:var(--grey-400);margin-left:2px;transition:transform .2s}
+.nav-item:hover .chev{transform:rotate(180deg)}
+.mega{position:absolute;top:100%;left:0;background:var(--white);border:1px solid var(--brown-border);border-top:2px solid var(--brown);box-shadow:0 8px 32px rgba(139,94,42,.12);border-radius:0 0 8px 8px;padding:22px 26px;min-width:200px;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .18s,transform .18s;z-index:600}
+.nav-item:hover .mega{opacity:1;pointer-events:all;transform:translateY(0)}
+.mega.wide{min-width:620px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.mega-head{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--brown);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--brown-border)}
+.mega-link{display:block;padding:5px 0;font-size:13px;color:var(--grey-600);text-decoration:none;transition:all .12s}
+.mega-link:hover{color:var(--brown);padding-left:4px}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.nav-search{display:none}
+.nav-search:focus-within{border-color:var(--brown);background:var(--white)}
+.nav-search input{border:none;background:none;outline:none;font-family:var(--font);font-size:13px;color:var(--black);width:100%}
+.nav-search input::placeholder{color:var(--grey-400)}
+.nav-wa{display:flex;align-items:center;gap:6px;background:var(--wa);color:#fff;padding:8px 15px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;transition:background .15s;white-space:nowrap}
+.nav-wa:hover{background:var(--wa-dark)}
+.nav-wa svg{width:14px;height:14px}
+
+/* HAMBURGER */
+.hamburger{display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border:none;background:none}
+.hamburger span{width:24px;height:2px;background:var(--black);border-radius:2px;transition:all .3s;display:block}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* MOBILE MENU */
+.mobile-menu{
+  display:none;position:fixed;top:0;right:0;bottom:0;
+  width:280px;max-width:85vw;
+  background:var(--white);z-index:800;overflow-y:auto;
+  padding:20px 0 40px;flex-direction:column;
+  box-shadow:-4px 0 24px rgba(0,0,0,.15);
+  transform:translateX(100%);transition:transform .28s ease;
+}
+.mobile-menu.open{display:flex;transform:translateX(0)}
+.mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:799;backdrop-filter:blur(2px)}
+.mob-overlay.open{display:block}
+.mob-item{padding:13px 20px;border-bottom:1px solid var(--brown-border);font-size:14px;font-weight:600;color:var(--black);cursor:pointer;display:flex;align-items:center;justify-content:space-between}
+.mob-item:hover{color:var(--brown)}
+.mob-sub{padding:4px 0;display:none;flex-direction:column;background:var(--cream)}
+.mob-sub.open{display:flex}
+.mob-sub a{padding:9px 20px 9px 32px;font-size:13px;color:var(--grey-600);text-decoration:none;border-bottom:1px solid var(--grey-100);display:block}
+.mob-sub a:hover{color:var(--brown)}
+.mob-close{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 16px 20px;border-bottom:1px solid var(--brown-border);margin-bottom:8px;font-size:14px;font-weight:700;color:var(--black);border:none;background:none;cursor:pointer;width:100%;font-family:'Inter',sans-serif}
+.mob-close-x{font-size:20px;color:var(--grey-400)}
+
+.mob-btn { display:flex; align-items:center; justify-content:center; gap:8px; color:#fff; padding:13px 20px; font-size:13px; font-weight:700; text-decoration:none; border-radius:8px; transition: opacity .2s; }
+.mob-btn.fb { background: #1877F2; }
+.mob-btn.ig { background: #E1306C; }
+.mob-btn.wa { background: var(--wa); }
+.mob-btn:hover { opacity: 0.9; }
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--brown-dark) 0%,#4a2e10 55%,#2d1a06 100%);color:#fff;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-80px;top:-80px;width:480px;height:480px;border-radius:50%;background:rgba(196,154,108,.1)}
+.hero-inner{max-width:1380px;margin:0 auto;padding:70px 40px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:48px;position:relative;z-index:1}
+.hero-eye{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--brown-light);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.hero-eye::before{content:'';width:20px;height:1.5px;background:var(--brown-light)}
+.hero h1{font-size:44px;font-weight:700;line-height:1.1;letter-spacing:-1px;margin-bottom:16px}
+.hero h1 em{color:var(--brown-light);font-style:normal}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.62);line-height:1.75;margin-bottom:32px;max-width:460px;font-weight:300}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-cream{background:var(--cream);color:var(--brown-dark);border:none;padding:13px 28px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:opacity .15s}
+.btn-cream:hover{opacity:.9}
+.btn-ow{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.32);padding:13px 24px;border-radius:6px;font-size:14px;font-weight:500;cursor:pointer;font-family:var(--font);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:border-color .15s}
+.btn-ow:hover{border-color:rgba(255,255,255,.65)}
+.hero-visual{border-radius:16px;width:290px;height:260px;flex-shrink:0;position:relative;overflow:hidden}
+.hero-stats{display:flex;gap:36px;margin-top:36px;padding-top:28px;border-top:1px solid rgba(255,255,255,.1);flex-wrap:wrap}
+.sn{font-size:22px;font-weight:700;color:#fff}
+.sl{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px}
+
+/* STRIP */
+.strip{background:var(--brown-pale);border-bottom:1px solid var(--brown-border);padding:10px 40px;font-size:12px;color:var(--brown-dark);font-weight:500;display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap}
+.strip-item{display:flex;align-items:center;gap:6px}
+.sdiv{color:var(--brown-border)}
+
+/* SECTION */
+.sec{max-width:1380px;margin:0 auto;padding:52px 40px}
+.sec-head{margin-bottom:32px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.sec-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--brown);margin-bottom:7px}
+.sec-title{font-size:26px;font-weight:700;letter-spacing:-.4px;color:var(--black)}
+.sec-link{font-size:13px;font-weight:600;color:var(--brown);text-decoration:none;display:flex;align-items:center;gap:4px;white-space:nowrap;margin-bottom:4px}
+.sec-link:hover{text-decoration:underline}
+
+/* CATEGORY TILES */
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.cat-tile{background:var(--cream);border:1px solid var(--brown-border);border-radius:8px;padding:22px 20px;display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--black);transition:all .2s;cursor:pointer}
+.cat-tile:hover{background:var(--brown);color:#fff;border-color:var(--brown);transform:translateY(-2px);box-shadow:0 8px 24px rgba(139,94,42,.2)}
+.cat-tile:hover .ct-desc,.cat-tile:hover .ct-arr{color:rgba(255,255,255,.55)}
+.ct-icon{font-size:28px;flex-shrink:0}
+.ct-name{font-size:13px;font-weight:700;margin-bottom:3px}
+.ct-desc{font-size:11px;color:var(--grey-600);font-weight:300;transition:color .2s}
+.ct-arr{font-size:15px;color:var(--grey-400);flex-shrink:0;transition:color .2s}
+
+/* PRODUCT GRID */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.product-card{border:1px solid var(--brown-border);border-radius:8px;background:var(--white);overflow:hidden;cursor:pointer;transition:all .2s;display:flex;flex-direction:column}
+.product-card:hover{box-shadow:0 8px 28px rgba(139,94,42,.12);border-color:var(--brown-light);transform:translateY(-3px)}
+.pc-img{background:var(--cream);height:170px;display:flex;align-items:center;justify-content:center;font-size:56px;border-bottom:1px solid var(--grey-100);position:relative;overflow:hidden}
+.pc-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.pc-emoji{font-size:56px;z-index:1;position:relative}
+.pc-badge{position:absolute;top:10px;left:10px;font-size:9px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:3px 8px;border-radius:3px;z-index:2}
+.badge-popular{background:var(--brown);color:#fff}
+.badge-new{background:#c8953a;color:#fff}
+.badge-german{background:#1a3a5c;color:#fff}
+.badge-sale{background:#c0392b;color:#fff}
+.badge-bulk{background:#27632a;color:#fff}
+.pc-info{padding:13px 14px 15px;flex:1;display:flex;flex-direction:column;gap:5px}
+.pc-cat{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--brown)}
+.pc-name{font-size:13px;font-weight:600;color:var(--black);line-height:1.35}
+.pc-desc{font-size:12px;color:var(--grey-600);line-height:1.5;font-weight:300}
+.pc-price{font-size:15px;font-weight:700;color:var(--black);margin-top:auto;padding-top:6px}
+.pc-price .old{font-size:11px;color:var(--grey-400);text-decoration:line-through;font-weight:400;margin-right:4px}
+.pc-wa-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:10px;padding:9px;background:var(--wa);color:#fff;border:none;border-radius:5px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:background .15s;text-decoration:none}
+.pc-wa-btn:hover{background:var(--wa-dark)}
+.pc-wa-btn svg{width:12px;height:12px}
+
+/* SHEETS NOTE */
+.sheets-note{background:var(--brown-pale);border:1.5px dashed var(--brown-light);border-radius:8px;padding:24px 28px;text-align:center;margin-bottom:24px}
+.sheets-note h3{font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:6px}
+.sheets-note p{font-size:12px;color:var(--grey-600);line-height:1.65}
+.sheets-note code{background:rgba(139,94,42,.1);padding:2px 6px;border-radius:3px;font-size:11px;color:var(--brown-dark)}
+
+/* QUALITY BAR */
+.qbar{background:var(--cream2);border-top:1px solid var(--brown-border);border-bottom:1px solid var(--brown-border)}
+.qbar-inner{max-width:1380px;margin:0 auto;padding:28px 40px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.qi{display:flex;align-items:flex-start;gap:12px}
+.qi-icon{font-size:26px;flex-shrink:0;margin-top:2px}
+.qi-title{font-size:13px;font-weight:700;margin-bottom:3px;color:var(--black)}
+.qi-desc{font-size:12px;color:var(--grey-600);line-height:1.55;font-weight:300}
+
+/* BRANDS */
+.brands{border-top:1px solid var(--brown-border);border-bottom:1px solid var(--brown-border);padding:22px 40px}
+.brands-inner{max-width:1380px;margin:0 auto;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.b-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey-400);white-space:nowrap}
+.b-list{display:flex;gap:9px;flex-wrap:wrap}
+.b-tag{background:var(--cream);border:1px solid var(--brown-border);border-radius:4px;padding:4px 12px;font-size:12px;font-weight:700;color:var(--grey-800);letter-spacing:.4px}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(26,18,8,.52);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s;backdrop-filter:blur(5px)}
+.modal-bg.open{opacity:1;pointer-events:all}
+.modal{background:var(--white);border-radius:10px;max-width:680px;width:100%;max-height:92vh;overflow-y:auto;transform:translateY(20px) scale(.97);transition:transform .22s;box-shadow:0 24px 72px rgba(0,0,0,.18)}
+.modal-bg.open .modal{transform:none}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:17px 22px;border-bottom:1px solid var(--brown-border);position:sticky;top:0;background:var(--white);z-index:1;border-radius:10px 10px 0 0}
+.modal-head h3{font-size:15px;font-weight:700}
+.modal-x{width:32px;height:32px;border-radius:6px;border:1.5px solid var(--brown-border);background:var(--white);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--grey-600);transition:all .15s}
+.modal-x:hover{background:var(--cream);color:var(--black)}
+.modal-body{padding:22px}
+.modal-top{display:flex;gap:22px;margin-bottom:26px}
+.modal-img{width:150px;height:150px;flex-shrink:0;border-radius:8px;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:68px;border:1px solid var(--brown-border);overflow:hidden}
+.modal-img img{width:100%;height:100%;object-fit:cover}
+.m-cat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--brown);margin-bottom:7px}
+.m-name{font-size:20px;font-weight:700;margin-bottom:9px;letter-spacing:-.2px;line-height:1.2}
+.m-desc{font-size:13px;color:var(--grey-600);line-height:1.7;font-weight:300}
+.m-price-row{margin-top:12px;display:flex;align-items:baseline;gap:8px}
+.m-price{font-size:24px;font-weight:700}
+.m-old{font-size:14px;color:var(--grey-400);text-decoration:line-through}
+.specs-sec{margin-bottom:22px}
+.specs-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--grey-400);margin-bottom:11px}
+.specs-tbl{border:1px solid var(--brown-border);border-radius:7px;overflow:hidden}
+.srow{display:grid;grid-template-columns:40% 60%;border-bottom:1px solid var(--grey-100)}
+.srow:last-child{border-bottom:none}
+.sk{padding:10px 13px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--grey-600);background:var(--cream);border-right:1px solid var(--grey-100)}
+.sv{padding:10px 13px;font-size:13px;font-weight:500;color:var(--black)}
+.m-avail{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--grey-600);margin-bottom:17px}
+.avail-dot{width:7px;height:7px;border-radius:50%;background:#27ae60;flex-shrink:0}
+.m-wa-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:var(--wa);color:#fff;border:none;border-radius:7px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);transition:background .15s;text-decoration:none}
+.m-wa-btn:hover{background:var(--wa-dark)}
+.m-wa-note{text-align:center;font-size:11px;color:var(--grey-400);margin-top:7px}
+
+/* FOOTER */
+.footer{background:var(--brown-dark);color:rgba(255,255,255,.65); clear:both;}
+.footer-top{max-width:1380px;margin:0 auto;padding:44px 40px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px}
+.ft-name{font-size:16px;font-weight:700;color:#fff;margin-bottom:4px}
+.ft-tag{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--brown-light);margin-bottom:13px}
+.ft-about{font-size:12px;line-height:1.7;color:rgba(255,255,255,.45);font-weight:300;max-width:230px;margin-bottom:18px}
+.ft-soc{display:flex;gap:8px}
+.ft-soc a{width:32px;height:32px;border-radius:6px;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.5);text-decoration:none;font-size:14px;transition:all .15s}
+.ft-soc a:hover{background:var(--brown);border-color:var(--brown);color:#fff}
+.ft-col-h{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fff;margin-bottom:13px}
+.ft-lnk{display:block;font-size:12px;color:rgba(255,255,255,.45);text-decoration:none;padding:3px 0;transition:color .15s;font-weight:300}
+.ft-lnk:hover{color:#fff}
+.footer-btm{border-top:1px solid rgba(255,255,255,.08);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.28);flex-wrap:wrap;gap:8px}
+.footer-btm a{color:rgba(255,255,255,.28);text-decoration:none}
+.footer-btm a:hover{color:rgba(255,255,255,.6)}
+
+/* CATALOG */
+.cat-wrap{max-width:1380px;margin:0 auto;padding:36px 40px;display:grid;grid-template-columns:210px 1fr;gap:28px;align-items:start}
+.sidebar{position:sticky;top:calc(var(--nav-h) + 14px);background:var(--white);border:1px solid var(--brown-border);border-radius:8px;padding:18px}
+.sb-title{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--brown);margin-bottom:12px;padding-bottom:9px;border-bottom:1px solid var(--brown-border)}
+.sb-item{display:flex;align-items:center;gap:7px;padding:6px 0;font-size:13px;color:var(--grey-600);cursor:pointer;transition:color .12s;border-bottom:1px solid var(--grey-100)}
+.sb-item:last-child{border-bottom:none}
+.sb-item:hover,.sb-item.active{color:var(--brown);font-weight:600}
+.sb-item::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--grey-200);flex-shrink:0;transition:background .12s}
+.sb-item.active::before{background:var(--brown)}
+.cat-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;gap:14px;flex-wrap:wrap}
+.cat-search{display:flex;align-items:center;gap:7px;background:var(--white);border:1.5px solid var(--brown-border);border-radius:7px;padding:9px 13px;flex:1;max-width:420px;transition:border-color .2s}
+.cat-search:focus-within{border-color:var(--brown)}
+.cat-search input{border:none;background:none;outline:none;font-family:var(--font);font-size:13px;color:var(--black);width:100%}
+.cat-search input::placeholder{color:var(--grey-400)}
+.cat-count{font-size:13px;color:var(--grey-600);white-space:nowrap}
+.no-res{display:none;text-align:center;padding:56px;color:var(--grey-400);font-size:14px}
+
+/* ABOUT */
+.about-hero{background:var(--brown-dark);color:#fff;padding:80px 40px;text-align:center}
+.ah-inner{max-width:660px;margin:0 auto}
+.ah-eye{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--brown-light);margin-bottom:14px}
+.about-hero h1{font-size:40px;font-weight:700;letter-spacing:-.5px;margin-bottom:16px}
+.about-hero p{font-size:15px;color:rgba(255,255,255,.58);line-height:1.75;font-weight:300}
+.about-body{max-width:1100px;margin:0 auto;padding:60px 40px}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;margin-bottom:56px}
+.ab-img{background:var(--cream);border-radius:12px;height:290px;display:flex;align-items:center;justify-content:center;font-size:96px;border:1px solid var(--brown-border)}
+.ab-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--brown);margin-bottom:12px}
+.about-grid h2{font-size:28px;font-weight:700;letter-spacing:-.3px;margin-bottom:13px}
+.about-grid p{font-size:14px;color:var(--grey-600);line-height:1.8;font-weight:300;margin-bottom:11px}
+.cc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-top:36px}
+.cc{background:var(--white);border:1px solid var(--brown-border);border-radius:8px;padding:22px 18px;display:flex;flex-direction:column;gap:7px;box-shadow:0 2px 8px rgba(139,94,42,.06)}
+.cc-icon{font-size:26px;margin-bottom:3px}
+.cc-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--brown)}
+.cc-title{font-size:14px;font-weight:700;color:var(--black)}
+.cc-val{font-size:12px;color:var(--grey-600);line-height:1.65;font-weight:300}
+.cc-link{font-size:12px;font-weight:700;color:var(--brown);text-decoration:none;margin-top:4px}
+.cc-link:hover{text-decoration:underline}
+.wa-cta-block{background:var(--brown-dark);border-radius:10px;padding:36px;display:flex;align-items:center;justify-content:space-between;gap:22px;margin-top:36px;flex-wrap:wrap}
+.wa-cta-block h3{font-size:22px;font-weight:700;color:#fff;margin-bottom:6px}
+.wa-cta-block p{font-size:13px;color:rgba(255,255,255,.48);font-weight:300}
+.wa-cta-btn{display:flex;align-items:center;gap:8px;background:var(--wa);color:#fff;padding:13px 26px;border-radius:7px;font-size:14px;font-weight:700;text-decoration:none;transition:background .15s;white-space:nowrap}
+.wa-cta-btn:hover{background:var(--wa-dark)}
+
+/* PAGES */
+.page{display:none}
+.page.active{display:block;min-height:100vh;padding-top:0}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:1100px){
+  .topbar{padding:7px 24px}
+  .nav-inner{padding:0 24px}
+  .hero-inner{padding:56px 24px;gap:32px}
+  .hero h1{font-size:36px}
+  .hero-visual{width:100%;height:220px}
+  .sec{padding:40px 24px}
+  .qbar-inner{padding:24px;grid-template-columns:repeat(2,1fr)}
+  .footer-top{padding:36px 24px;grid-template-columns:1fr 1fr;gap:24px}
+  .footer-btm{padding:12px 24px}
+  .brands{padding:20px 24px}
+  .cat-grid{grid-template-columns:repeat(2,1fr)}
+  .cat-wrap{padding:24px}
+  .about-body{padding:40px 24px}
+}
+@media(max-width:768px){
+  .social-float-btn span { display: none; }
+  .social-float-btn { padding: 14px; border-radius: 50%; }
+
+  .topbar{display:none}
+  .nav-cats{display:none}
+  .nav-right{display:flex;margin-left:auto}
+  .nav-search,.nav-wa{display:none!important}
+  .hamburger{display:flex}
+  .nav-inner{padding:0 16px}
+  .nav-logo{margin-right:auto}
+  .hero-inner{grid-template-columns:1fr;gap:16px;padding:36px 20px}
+  .hero-visual{width:100%;height:200px;margin-top:12px}
+  .hero h1{font-size:28px}
+  .hero-sub{font-size:14px}
+  .hero-stats{gap:20px}
+  .sn{font-size:18px}
+  .strip{padding:8px 16px;gap:10px;font-size:11px}
+  .sec{padding:28px 16px}
+  .sec-head{flex-direction:column;align-items:flex-start;gap:6px}
+  .cat-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .cat-tile{padding:16px 12px;gap:10px}
+  .ct-icon{font-size:22px}
+  .ct-name{font-size:12px}
+  .ct-desc{display:none}
+  .product-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .pc-img{height:140px;font-size:44px}
+  .pc-emoji{font-size:44px}
+  .pc-info{padding:10px 11px 12px}
+  .pc-name{font-size:12px}
+  .qbar-inner{grid-template-columns:1fr 1fr;gap:16px;padding:20px 16px}
+  .brands{padding:16px}
+  .brands-inner{gap:14px}
+  .footer-top{grid-template-columns:1fr 1fr;gap:20px;padding:28px 16px}
+  .footer-btm{padding:12px 16px;flex-direction:column;text-align:center}
+  .cat-wrap{grid-template-columns:1fr;padding:16px}
+  .sidebar{position:static;margin-bottom:16px}
+  #sb-cats{display:flex;flex-wrap:wrap;gap:6px}
+  .sb-item{border:1px solid var(--brown-border);border-radius:20px;padding:5px 12px;font-size:12px;background:var(--cream);border-bottom:1px solid var(--brown-border)}
+  .sb-item::before{display:none}
+  .sb-item.active{background:var(--brown);color:#fff;border-color:var(--brown)}
+  .about-hero{padding:52px 20px}
+  .about-hero h1{font-size:28px}
+  .about-grid{grid-template-columns:1fr;gap:28px}
+  .ab-img{height:200px;font-size:72px}
+  .about-body{padding:28px 16px}
+  .cc-grid{grid-template-columns:1fr 1fr}
+  .wa-cta-block{flex-direction:column;text-align:center;padding:28px 20px}
+  .modal-top{flex-direction:column;gap:16px}
+  .modal-img{width:100%;height:180px}
+}
+@media(max-width:420px){
+  .hero-visual{height:160px}
+  .cat-grid{grid-template-columns:1fr}
+  .cc-grid{grid-template-columns:1fr}
+  .hero-stats{gap:14px}
+  .product-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-top{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="social-float-container">
+  <a class="social-float-btn fb" href="https://www.facebook.com/share/17WSVJLUvM/" target="_blank">
+    <svg viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.312h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
+    <span>Facebook</span>
+  </a>
+  <a class="social-float-btn ig" href="https://www.instagram.com/newburhanitools?igsh=dzZ5cm1lcjQya25p" target="_blank">
+    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    <span>Instagram</span>
+  </a>
+  <a class="social-float-btn wa" href="https://wa.me/923278233552?text=Hi%20New%20Burhani%20Tools!%20I%20want%20to%20place%20an%20order." target="_blank">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span>WhatsApp</span>
+  </a>
+</div>
+
+<div class="mob-overlay" id="mobOverlay" onclick="closeMenu()"></div>
+
+<div class="mobile-menu" id="mobMenu">
+  <button class="mob-close" onclick="closeMenu()">
+    <span>Menu</span>
+    <span class="mob-close-x">✕</span>
+  </button>
+  <div class="mob-item" onclick="navTo('home')">Home</div>
+  <div class="mob-item" onclick="toggleSub('ms1')">Most Popular <span>▾</span>
+    <div class="mob-sub" id="ms1" onclick="e=>e.stopPropagation()">
+      <a href="#" onclick="navTo('catalog','popular')">All Best Sellers</a>
+      <a href="#" onclick="navTo('catalog','popular')">New Arrivals</a>
+    </div>
+  </div>
+  <div class="mob-item" onclick="toggleSub('ms2')">Essential Tools <span>▾</span>
+    <div class="mob-sub" id="ms2">
+      <a href="#" onclick="navTo('catalog','essential')">Hand Tools</a>
+      <a href="#" onclick="navTo('catalog','essential')">Measuring Tools</a>
+      <a href="#" onclick="navTo('catalog','essential')">Power Accessories</a>
+    </div>
+  </div>
+  <div class="mob-item" onclick="toggleSub('ms3')">Swiss & German <span>▾</span>
+    <div class="mob-sub" id="ms3">
+      <a href="#" onclick="navTo('catalog','swiss')">GEDORE</a>
+      <a href="#" onclick="navTo('catalog','swiss')">WERA</a>
+      <a href="#" onclick="navTo('catalog','swiss')">KNIPEX</a>
+      <a href="#" onclick="navTo('catalog','swiss')">BAHCO</a>
+    </div>
+  </div>
+  <div class="mob-item" onclick="navTo('catalog','manufactured')">Own Manufactured</div>
+  <div class="mob-item" onclick="navTo('catalog','indian')">Indian Tools</div>
+  <div class="mob-item" onclick="navTo('catalog','bulk')">Bulk Orders</div>
+  <div class="mob-item" onclick="navTo('catalog')">All Products</div>
+  <div class="mob-item" onclick="navTo('about')">About Us</div>
+  
+  <div style="margin: 16px 20px 0; display:flex; flex-direction:column; gap:8px;">
+    <a class="mob-btn fb" href="https://www.facebook.com/share/17WSVJLUvM/" target="_blank">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.312h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg> 
+      Facebook
+    </a>
+    <a class="mob-btn ig" href="https://www.instagram.com/newburhanitools?igsh=dzZ5cm1lcjQya25p" target="_blank">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> 
+      Instagram
+    </a>
+    <a class="mob-btn wa" href="https://wa.me/923278233552?text=Hi%20New%20Burhani%20Tools!%20I%20want%20to%20place%20an%20order." target="_blank">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> 
+      WhatsApp
+    </a>
+  </div>
+</div>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <a href="#" onclick="showPage('about')">📞 Contact Us</a>
+    <span class="tdiv">|</span>
+    <a href="#" onclick="showPage('about')">Bulk Orders</a>
+    <span class="tdiv">|</span>
+    <a href="#" onclick="showPage('about')">Nationwide Delivery</a>
+  </div>
+  <div class="topbar-right">
+    <a href="https://www.instagram.com/newburhanitools?igsh=dzZ5cm1lcjQya25p" target="_blank">📸</a>
+    <a href="https://www.facebook.com/share/17WSVJLUvM/" target="_blank">👥</a>
+    <span class="tdiv">|</span>
+    <a class="topbar-wa" href="https://wa.me/923278233552" target="_blank">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      +92 327 8233552
+    </a>
+  </div>
+</div>
+
+<nav class="main-nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#" onclick="showPage('home')">
+      <img class="nav-logo-img" src="YOUR_LOGO_IMAGE_LINK_HERE.png" alt="New Burhani Tools Logo" onerror="this.style.display='none'">
+      <div class="nav-logo-text">
+        <span class="nav-logo-name">New Burhani Tools</span>
+        <span class="nav-logo-sub">Quality Since Day One</span>
+      </div>
+    </a>
+    <div class="nav-cats">
+      <div class="nav-item"><button onclick="showPage('home')">Home</button></div>
+      <div class="nav-item">
+        <button>Most Popular <span class="chev">▾</span></button>
+        <div class="mega"><div class="mega-head">Best Sellers</div>
+          <a class="mega-link" href="#" onclick="goToCat('popular')">All Best Sellers</a>
+          <a class="mega-link" href="#" onclick="goToCat('popular')">Top Rated Tools</a>
+          <a class="mega-link" href="#" onclick="goToCat('popular')">New Arrivals</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button>Essential Tools <span class="chev">▾</span></button>
+        <div class="mega wide">
+          <div><div class="mega-head">Hand Tools</div>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Hammers & Mallets</a>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Wrenches & Spanners</a>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Pliers & Cutters</a>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Screwdrivers</a>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Chisels & Punches</a>
+          </div>
+          <div><div class="mega-head">Measuring</div>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Tape Measures</a>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Spirit Levels</a>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Calipers & Gauges</a>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Squares & Rulers</a>
+          </div>
+          <div><div class="mega-head">Power Accessories</div>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Drill Bits</a>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Saw Blades</a>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Grinding Discs</a>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Cutting Tools</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button>Swiss & German <span class="chev">▾</span></button>
+        <div class="mega wide">
+          <div><div class="mega-head">German Brands</div>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">GEDORE</a>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">WERA</a>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">KNIPEX</a>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">STAHLWILLE</a>
+          </div>
+          <div><div class="mega-head">Swiss & European</div>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">BAHCO</a>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">FACOM</a>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">PB Swiss Tools</a>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">HAZET</a>
+          </div>
+          <div><div class="mega-head">Categories</div>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">Precision Wrenches</a>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">Torque Tools</a>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">Socket Sets</a>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">Pliers Sets</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button>Own Manufactured <span class="chev">▾</span></button>
+        <div class="mega"><div class="mega-head">Burhani Brand</div>
+          <a class="mega-link" href="#" onclick="goToCat('manufactured')">Drill Bits</a>
+          <a class="mega-link" href="#" onclick="goToCat('manufactured')">Chisel Sets</a>
+          <a class="mega-link" href="#" onclick="goToCat('manufactured')">Socket Sets</a>
+          <a class="mega-link" href="#" onclick="goToCat('manufactured')">Workshop Sets</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button>Indian Tools <span class="chev">▾</span></button>
+        <div class="mega"><div class="mega-head">Indian Brands</div>
+          <a class="mega-link" href="#" onclick="goToCat('indian')">Taparia</a>
+          <a class="mega-link" href="#" onclick="goToCat('indian')">Eastman</a>
+          <a class="mega-link" href="#" onclick="goToCat('indian')">Groz</a>
+          <a class="mega-link" href="#" onclick="goToCat('indian')">Stanley India</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button>Bulk Orders <span class="chev">▾</span></button>
+        <div class="mega"><div class="mega-head">Wholesale</div>
+          <a class="mega-link" href="#" onclick="goToCat('bulk')">Bulk Wrench Sets</a>
+          <a class="mega-link" href="#" onclick="goToCat('bulk')">Bulk Screwdrivers</a>
+          <a class="mega-link" href="#" onclick="goToCat('bulk')">Bulk Drill Bits</a>
+          <a class="mega-link" href="#" onclick="goToCat('bulk')">Custom Quote</a>
+        </div>
+      </div>
+    </div>
+    <div class="nav-right">
+      <div class="nav-search">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--grey-400);flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" placeholder="Search products…" oninput="homeSearch(this.value)">
+      </div>
+      <a class="nav-wa" href="https://wa.me/923278233552?text=Hi%20New%20Burhani%20Tools!%20I%20want%20to%20place%20an%20order." target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Order on WhatsApp
+      </a>
+      <button class="hamburger" id="hamBtn" onclick="openMenu()"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eye">Trusted by Professionals Across Pakistan</div>
+        <h1>Tools Built for <em>Real Work</em></h1>
+        <div class="hero-sub">From Swiss & German precision instruments to our own manufactured range — quality tools at every price point, delivered nationwide.</div>
+        <div class="hero-btns">
+          <a class="btn-cream" href="#" onclick="showPage('catalog')">Browse All Products</a>
+          <a class="btn-ow" href="https://wa.me/923278233552?text=Hi!%20I%20want%20a%20bulk%20order%20quote." target="_blank">Get Bulk Quote →</a>
+        </div>
+        <div class="hero-stats">
+          <div><div class="sn">100+</div><div class="sl">Products</div></div>
+          <div><div class="sn">6</div><div class="sl">Categories</div></div>
+          <div><div class="sn">24hr</div><div class="sl">Fast Delivery</div></div>
+          <div><div class="sn">4.9★</div><div class="sl">Rating</div></div>
+        </div>
+      </div>
+      <div class="hero-visual"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gIoSUNDX1BST0ZJTEUAAQEAAAIYAAAAAAQwAABtbnRyUkdCIFhZWiAAAAAAAAAAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAAHRyWFlaAAABZAAAABRnWFlaAAABeAAAABRiWFlaAAABjAAAABRyVFJDAAABoAAAAChnVFJDAAABoAAAAChiVFJDAAABoAAAACh3dHB0AAAByAAAABRjcHJ0AAAB3AAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAFgAAAAcAHMAUgBHAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAAAA+EAAC2z3BhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABYWVogAAAAAAAA9tYAAQAAAADTLW1sdWMAAAAAAAAAAQAAAAxlblVTAAAAIAAAABwARwBvAG8AZwBsAGUAIABJAG4AYwAuACAAMgAwADEANv/bAEMACAYGBwYFCAcHBwkJCAoMFA0MCwsMGRITDxQdGh8eHRocHCAkLicgIiwjHBwoNyksMDE0NDQfJzk9ODI8LjM0Mv/bAEMBCQkJDAsMGA0NGDIhHCEyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMv/AABEIAkwE4gMBIgACEQEDEQH/xAAcAAABBQEBAQAAAAAAAAAAAAAAAQMEBQYCBwj/xABfEAABBAEBAwUMBwQIAgcGAA8BAAIDBAURBhIhExQxQVEHFSIyUlNhcXKRkrEjMzQ1QlSBYqHB0RYkQ3OCorLCJWMXNkR0k5ThRVVkg7PwCFbS0yYno+I3RmV1hKTy/8QAHAEBAQEBAQEBAQEAAAAAAAAAAAECAwQFBgcI/8QAPREBAAICAAQDBQcCBQMDBQAAAAECAxEEEiExBUFREyJhgZEUFTJxobHBUvAGIzNC0UNT0haS4SRicqKy/9oADAMBAAIRAxEAPwD3ZCVCBEJUIEQlQgRCVCDlCF0AUCIXWi5KBEqEIDRCVCBEI1RqgEqEIBCEIBCEIBcpdUiBUJdEIOUJSkQKF1ouQukCISlCBEIJ0QgEIQgEIQgEIQgEJUuiDlC60XJQcpQuUoQdIShCBEJUIEQlQgRCXRCBEJUIEQlQgRCVCA0SJSVygVCRdIEQlSIBCAlQIhKhAiEqECISo0QIhCEAhLpuo1QIhGqRAqEoKXRByhBCQIFQhCAQhCAQhCBUJdEiAQhCAXK6SaoEC6XOq61QCEqECIQhAIQkBQKhCEAhCXRAiEIQIhGi6QcoCCgFAqEapUCISpNUAhKhAiEqECISoQIhKk1QCEqNCgNEi6XJQCVcroFAJF0udCgEIQgEIQgEIQgEJdEiAQhCAQutEiBEI1RqgEJUIEQlISIBCEuiBEJdEIOULshcIFQhCASJUiAQhdIOdEuu6lTZKDolcrhdBB0hCEAulylBQLuJNF2EFBwhKhAiEqEAkSoQc6LpCEAuSUpK4QdISBKgEa7qEIOx4SQ+CuN/RODwkHCVKRohAiEqECISoQIhKhALpC4JQKSuUiVAIQhAa7q6HhJshKDoge3FwlD0uiDlCXRIgNUiEqBEJUIEXQSIQdLglKSuECoQhAJNUqNEDgCCFxv6LoP1QIhd6JEHKEqRAqEIQCEIQGiF0uSgQlcoQgEIQgULoFcFIgc6UmiVi6KDhC6XKASpEqAQhCA1Rok0XSBEiUrlAJEqEHK6SIQdarpNhOAoE0SLsrgoBACEqBEJUIESoQgEaJUhKASFJqhAiEICBV0FylQdrnRAK7QcIRohAIQhAIQkKAQhKgVKk1SaoArlCEAlSIQdpVwlBQKkXSCEHCVIQlQCEIQLquShCAXQQhALlCRAIQhAq6XCVB2k0QCukHOiF0Vwg6QhCBAdUELhhToIcgbQnCE2gEiVdAIEC6RqmJZWRN1e8NQK8+EuVGOQreWXf4UnfGt2n4UEpKFE741+13wo741/KPwoJqFC741/KPwoJq5UTvjX8o/Cl741u0/CgmArsKB3xrdp+FL3zreUfhQTykURmUqtbxefhQcpV8s/CglpFE751vKPwoGRrO/tP8qCWlXMUjJW6scHJwkIOVyUpK5QcpQlQgELl8jIm6veGhRzkazf7T/KglIUTvnW8o/CjvjW8s/CglaJQdFE741vLPwo741u0/CgsAQ5cqD3zreUfhXffWru9LvhQS0KGcnV8s/CjvnV8t3woJiFD751vKPwpRlKvln4UEtCid9Kvln4Uhylbyz8KCWVwowyNY/jPwp+ORkjdWPDkHaEIQCEIQC5K6XL3sibq94a39pB0E6CoByFYf2n+VJ3zr+WfhQWOi5KiDK1ut5+FBylXyz8KCSlULvnW8o/Cl76VvLd8KCYhRO+lXyz8KXvpV7T8KCWFw9Rn5Ssehx+Fcd863lH4UEnVdKJ3xrdp+FHfGt5Z+FBLQonfOt5R+FAyNbyz8KCWjVcRyxSfVvDl2gQhA8FKhB2x+8uymgnAUCFcrt8jGDV7gB6VCfkarXfWfC0oJaFC751vKPwo751fLd8KCaugoYylXyz8K5flKzncHu+FBMK5UPvnW8o/CjvnW8o/CgloUTvnW8o/CjvnW8o/CgloUTvnW8o/CjvnW8o/Cglo0UTvnW8o/CjvnW8o/CgmarthUAZGt5Z+FPxzsl+rkDkEkrkpWFdIG0qUhcoFQlQ97WN1eWtb+0g608FcFRH5Gs3+03vZaVx3zreUfhQTNVyVE741vLPwo741vLPwoJiVQ++NbtPwo751vKPwoJiFD751vKPwoJiQlRO+dbyj8KTvjW7T8KCeDvNXWiru+dfyz8KcGUreWfhQTCEgUXvrV8t3wo76VPLPwoJaFxHYhm+rkDl1ogVKlASPKAKZeUpSIAIQS1jdXENCjPyFYf2m97LUEpCid863lH4Ud863lH4UExCh9863lH4Ud863lH4UEtdgqD3zreUfhR3zreUfhQWS5KgjKVvLPwroZWr5Z+FBKQohylXyz8KTvnV8t3woJiFD751fLd8KBlKvln4UE1IVE76VfLPwp2OxDN9XIHIOyUJUIBCEIBCEhIa3UkNagVCivyFZn9pvey1J3zreUfhQTgu1Xd863lH4Uoylbyz8KCeQuFF761fLd8K576VfLPwoJiFD751fLd8KO+dXy3fCglrpQ++lXyz8KO+lXyz8KCWVzqohydbyz8KTvnW8o/CgmIUPvnW8o/Cl751vKPwoJaE1HYhm+rkDk6gEIQgTVdsK5SIHlykYnEHKF1ohBFC6Em6udEaIJLDqghMMfuqQDvBByAgpS/RQrtnka5I6TwCBq3dcJeQrDekKWDEb2r7by956h0J3GVBBCJXj6V44+gdinoI4oVG9EDPcl5nW8xH8IT6EDHM63mI/hCOZ1vMR/CE+hAxzOt5iP4QmxFQMroQyHlG8S3QajVVu1u0tbZbBTX5iC/xYo/Ld2L5vlyVy7kZclYmkNqV+8X72hCsRsfU3Mqv5eP4UczreYj+EL5+xPdG2kxZa1t02Yx/Z2Rvn3reYnuxY6fdZk6ctVx/FH4bU0PReZ1vMR/CEczreYj+EKHjNosRmGg0L8Mx8kO0d7lZqBjmdbzEfwhHM63mI/hCfQgY5nW8xH8ISOoVXjQwM09A0UhCCqmxJj+kqPLXD8JRWuue8wTjdmCtVX5SrysXLs4SR8fWED6FHqT84rh/4ugqQgFDt3Cx4hgG/MU7bn5vXL/xdARi6gji5w/jJINfUEDUGJLzylt5c8/hBU1tCqwaCBmnpGqkIQMczreYj+EI5nW8xH8IT6EDHM63mI/hCOZ1vMR/CE+hAxzOt5iP4QjmVbzEfwhPoQeaZPa+lUtSw2ZGVtw/hh4KFY2jr3Kjhi81SZZPiGw7h7tQs93TcScVfB5eObnJc4Nb0s07VgKlhjH+G/dVgbqz/T57jyeex0rf+VKwfMKCYtv+u+93sW41SPtxOZoJWfEFWWDqmhtI4tueu5N/5tn813Jf2wp8X2pP/FY9ecvBd+Apos9Cg9fwWfzsj2SZG9AyvrxEsJLv8q0Uu2mExz/p8nC146mak+4LxKlm7VCHk45RudQd1KvkndZtOe9++951JQfVmIzMGSrxyRyslZINY5GdD1arCbEbI28Ls3vTW45nSASsjjJLQtnSscvXBPjDgUEhCE1ZnFeu6T3IGLdzkXcnGN6YohxTpjylx5cfIB4LvGVSG86l8KR/R6ArJBGbQqNGggZp6RquuZ1vMR/CE+hBAu8wx9SSzNDGI2DUnd1WcZtDDfbrRoVQOoyuHyC0ebhFjC24ndDoyF5fUxl6vXdJCN9rHFj43+EQR6Qg17LFl7uPIN9Da+q6Lw7UGZm8OkMYNQqSKzdrRb81CZnseF8k2J61nenmpTcTqS6JyC6fG5rtOUnd7LB/Jcje3v8AtWmnTutWclt0N93IsP8Ag1/mo0V+g6XkTyjnnqdqUGz0Y1m+Zt1v7WgXTBysQfDK1zT+LdBVLAyruMHMeI6N6Eqz/rMdfcjpeD1BjNEHb7r63Sar9Op7A1SMLmqOWtvqmlGJWHi5g1as3fr5F9V8hYyKIdXFxPoHQFYbEYsUcpYmeDy0ldu/vP3jxKDa8zreYj+EJDRqu6YGe5SEIKybEM136z3RvHaeCbr3HiXkLQ0f1FW6h5GmLUBc0aysGrfT6EHaFFoWDYr+F47OBUpAKJbu8h4DBvSHqT9iUQwOkPUExi62/rbl4vcTu+gIOYcbJYPK3Hu3vJCmsoVWN0ELT6xqpKEDHM63mI/hCOZ1vMR/CE+hAxzOt5iP4QjmdbzEfwhPoQMczreYj+EI5nW8xH8IT6EDHM63mI/hCOZ1vMR/CE+hAxzOt5iP4QjmdbzEfwhPoQMczreYj+EI5nW8xH8IT6EEc0ap6YGe5RJsPH49d5jeOjXoVmhBT17ksMvIWhuu6irJhTd+oLUBAA5RvFpUXHWDLDofHZwQWSTcXDHonmEMLpD1BBGu3RVbuM8KU9AUaPHzWiJLch9hLjoDM91ubi4ngrNYtbyhdI7KFVnRC39eK65nW8xH8KeSarO1Nc0reYj+FHNK3mY/hXZemzKEQc0reZj+FHNK3mY/hSGUdq55cdqqu+aVvMx/CjmlbzMfwpvnA7UnOE3KHea1vMx/Cl5rW8xH8KjmzusLz4LANSXdAWVyndM2fxUvJvtGw/srt31Y3PZJmGy5pW8xH8KXmlbzMfwry+x3acc37LjbUvtuaxd4zuo2s9k4KVCjXr8p0vsvJAWprMRuU5o29M5pW8xH8KQ1KvmWfCqqtlWPtc1nuwc50JEbdGk+kAklILj2WS98xdEBx+S5e1huKSly4uI8YHmJ6K16WCXkLf6PUhj1zbrizCR+MdBXSJTSWXrglQcfOZIjG/x41NWkCj27jazfKlPQ1PSSCKJzz0AKHjYDYldcm48fAHYUCRY6a2RLbkIB6GKczHVIxwhafS7ipSEEbmlXT6iP4Qstlc/C2yaOIpR2bXQXburGp3aLKWbNtmExrtJ5PrpB/ZtXVSClgImV4I9+w/i89ZXkve+W00xzqI7z/D14sVMdYvkjcz2j+ZV8GzuWtv5W9lHxE/2dfgApLtlXFvDLXmu9tWffFnQTuu7ErLjH/wBo9ajBjiPP6ys8VmmdxqPlCk5HL4Xw3tjyVUdIe0b4HoK0eMs43K1hPWjjI6C0t0LT2EKJIZpdWMl5Jvl9JRSowUJTNA7SR40e/t9YVpS1baienx/hnJat67mPe+H8wuuZ1vMR/CEczreYj+EKMLM+mm8wn1JJL0sLC+Tkw1o1LtV33Dzanekg06xH1EfwhU9/NYLHkskdE6Tzcbd4qknyWR2mmdWo61qTeD5etysqODxmNYPog9/XJIvJGbJmn/Jjp6z/ABD1zgx4Y/z5nfpH8yjja/E/+659O3kQrbHZPC5Mbtd0Jf5st0cuX28ezgTHp6BqqyxTw2Vl3IjyVn8EjG7p1W4rnr13E/ozM8Pbpqa/Pf1hqOZVTwMEfuUebEwv4wkxO9HEKoxeTt0LrcblHbxPCGx5foK0+q60vFocMmOaTqVPFZmqS83uDUfherFFyq23AWHg4cWnsKg46dxa6CTx410YTkISPeGMLz4oGqBi3bbWZ5Tz0BR4qNi6RLakcxvUxFCA3Z3XJR4OvgtVwgix46pH0QtJ7XcV3zOt5iP4Qn1Hr3IbMk7InaugeWPHYUC8yreYj+FHMqv5eP4VzLPyVmBmugkJb+umqkHoQM8yq/l4/hRzKtrryDPcqvZjIvyWJ5SQ6yRyyRP9YKXa2y+pszbsRnR8e44fGEFnzOt5iP4VyKtQuIEEeo/ZTsUgmgZI3oe0Efqq6nNvbRZKLyY4T7wUE7mdbzEfwhHM6vmI/hT6rI7hk2hmqa+DHXa8+slBM5nW8xH8IRzOt5iP4Qn1Eo347z7YjHCvOYSe0gAn5oHOZ1vMR/CEnMavmI/cpCEFdPiIH6mImJ3o4hRmWJ6UrYbfFv4Xq6TNqsy1AY3/AKHsKDkHVCgY+RwL6snjxqegUJEaoQC6D1yhA7voTSEHCNUJEC6JeVLFySmXlA8ZN5QLf016vC7xSR80+H8Uy/Q5ev6ggukIQgEIQgE1YsRVa8k87wyKNpc5zuAACdXj/da2wL3f0bx8nhHjacP9KDE7b7VSbXZ98jXEUKx3YGdp7Vnwm44xwHUFcYbHxXLZM4Lq0DDPPp0kDgGj2iWhb6QjmnizLCLVqQVqp6Hubq6T2G9a12Lw+zNukRBMG3Op1xxI9zC1Za3bnt2DJJp2AN4BgHQ0DqATcYdv9O6ud9z2l0pqO8NvSr97alp+Qw9blq+sjJImeDIz0OHYVo8DtWy4DFTsyRyhurI5ZS5vq8LUrGYTaV9Tegtv36zwWPDuwpyth6E2aM9K8xlDXf3XuILPQuFrWjrZ6K46zqK9XoDe6C2tJLHfoSAwjWXk+D2DtLD1ekOKu8ZtjgMuQyrkoeVP9lIdx/uK8l2wy9XeoQ4+Tes1ySJ2dIHYsvkIm26XfSswRODhHZhZ0McehzR1Nd+4rtjtNq7l58lYrbUPp9C+Y8Xtln8NoKWTnEbf7N7t9nuct1iO7PYaQzLY9jx52u7Rb1Lnt7Accommodation costs represent a huge 51% of average student living costs! The cheapest room available at a university of Nottingham catered hall is the ‘catered shared study’ at £147 a week with a 31 week tenancy, equalling over £4,500. Not very appealing, is it?
+
+Unfortunately these prices keep increasing. Since 2011 standard student rent has risen by a huge 33% but maintenance loan and grants has not risen to reflect these growing costs, therefore meaning students are becoming more impoverished. The National Union of Students’ figures suggest accommodation typically eats up 73% of the maximum student loan outside of London. We all know that remaining 27% doesn’t last a term…
+
+The only plausible ways out of these crippling costs is part-time work alongside study which is known to have a detrimental effect to a student’s success or more likely, turning to parents. The issue with this reliance is when parents do not necessarily have the money to bridge the gap; this makes going to university a burden rather than a stepping stone towards employment and adult life, an option that soon is only going to be available to those born into richer families. The problem of high rent combined with recent cuts to maintenance grants represents a severe threat to social mobility and equal opportunity. With the system turning into a free market more than ever, this looks like this may continue.
+
+So, how have other people tackled these high prices? In London, rent strikes occurred at halls of residence over the capital. Students of Goldsmiths, Courtauld, and predominantly UCL withheld their rent payments in protest demanding better value accommodation and the cancellation of a 5% rent increase at UCL halls. Students at King’s College London protested this way in the academic year before.
+
+Could this happen here at the university of Nottingham? Last year £18.52 million of the university’s consolidated income was from residences, catering and conferences meaning there is likely to be a lot of money in these higher prices. Should these prices rise again for the coming academic year there may be more noise around student’s rising costs.
