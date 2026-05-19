@@ -1,0 +1,1132 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Burhani Tools – Quality Hand & Power Tools</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- ============================================================
+  GOOGLE SHEETS INTEGRATION
+  1. Open Google Sheet → File → Share → Publish to web → CSV → Copy link
+  2. Paste link below replacing YOUR_GOOGLE_SHEET_CSV_LINK_HERE
+  3. Set SHEETS_ENABLED = true
+  Sheet columns: name, category, price, oldprice, badge, emoji, image, description, specs, wamessage
+  specs format:  Brand: GEDORE|Pieces: 16pc|Material: Steel
+  category values: popular / essential / swiss / manufactured / indian / bulk
+  image: paste direct image URL from imgbb.com or postimages.org
+============================================================ -->
+<script>
+  // ============================================================
+  //  >>>  ADD YOUR LOGO HERE  <<<
+  //  Paste a direct link to your logo image (PNG/JPG/SVG) below.
+  //  Tip: upload to imgbb.com or postimages.org → "Direct link".
+  //  Leave the string empty ('') to hide the logo image.
+  // ============================================================
+  const LOGO_URL = '';
+
+  // Google Sheets product feed — enabled
+  const SHEETS_ENABLED = true;
+  const SHEET_CSV_URL  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSUPfH3mvrvT3w_PPmmAXSlRnsG01Dizfc1QOGMf0DvAXMFtqpbZxAH4j1I2mOb9A29T5G3djMi8h19/pub?output=csv';
+</script>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#111111;
+  --white:#ffffff;
+  --cream:#f8f8f8;
+  --cream2:#f0f0f0;
+  --brown:#111111;
+  --brown-dark:#111111;
+  --brown-light:#666666;
+  --brown-pale:#eeeeee;
+  --brown-border:#e0e0e0;
+  --grey-100:#f0f0f0;
+  --grey-200:#e0e0e0;
+  --grey-400:#999999;
+  --grey-600:#666666;
+  --grey-800:#333333;
+  --wa:#25D366;
+  --wa-dark:#1da851;
+  --font:'Inter',sans-serif;
+  --nav-h:64px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--white);color:var(--black);font-size:14px;line-height:1.5;overflow-x:hidden}
+
+/* FLOATING WA */
+.wa-float{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;align-items:center;gap:9px;background:var(--wa);color:#fff;padding:13px 20px;border-radius:50px;font-size:13px;font-weight:700;text-decoration:none;box-shadow:0 4px 20px rgba(37,211,102,.4);transition:all .2s;animation:wapulse 2.5s infinite}
+.wa-float:hover{background:var(--wa-dark);transform:translateY(-2px)}
+.wa-float svg{width:18px;height:18px;flex-shrink:0}
+@keyframes wapulse{0%,100%{box-shadow:0 4px 20px rgba(37,211,102,.4)}50%{box-shadow:0 4px 30px rgba(37,211,102,.65)}}
+
+/* TOPBAR */
+.topbar{display:none!important;background:var(--brown-dark);color:rgba(255,255,255,.82);padding:7px 40px;display:flex;align-items:center;justify-content:space-between;font-size:12px;gap:12px}
+.topbar-left{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.topbar-left a{color:rgba(255,255,255,.72);text-decoration:none;transition:color .15s}
+.topbar-left a:hover{color:#fff}
+.topbar-right{display:flex;align-items:center;gap:14px;flex-shrink:0}
+.topbar-right a{color:rgba(255,255,255,.7);text-decoration:none;transition:color .15s}
+.topbar-right a:hover{color:#fff}
+.topbar-wa{display:flex;align-items:center;gap:6px;background:var(--wa);color:#fff!important;padding:4px 12px;border-radius:20px;font-weight:600;font-size:11px}
+.topbar-wa:hover{background:var(--wa-dark)!important}
+.tdiv{color:rgba(255,255,255,.25)}
+
+/* MAIN NAV */
+.main-nav{background:var(--white);border-bottom:1px solid var(--brown-border);position:sticky;top:0;z-index:500;box-shadow:0 1px 8px rgba(0,0,0,.06)}
+.nav-inner{max-width:1380px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;height:var(--nav-h);gap:12px}
+.nav-logo{display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none}
+.nav-logo-img{width:44px;height:44px;object-fit:contain}
+.nav-logo-text{display:flex;flex-direction:column;line-height:1.15}
+.nav-logo-name{font-size:16px;font-weight:700;color:var(--black);letter-spacing:-.3px;text-align:center}
+.nav-logo-sub{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--brown)}
+.nav-cats{display:none}
+.nav-item{position:relative;display:flex;align-items:center}
+.nav-item>a,.nav-item>button{display:flex;align-items:center;gap:4px;padding:0 12px;height:var(--nav-h);color:var(--grey-800);font-size:13px;font-weight:500;text-decoration:none;border:none;background:none;cursor:pointer;font-family:var(--font);white-space:nowrap;transition:color .15s;border-bottom:2px solid transparent}
+.nav-item>a:hover,.nav-item>button:hover,.nav-item:hover>a,.nav-item:hover>button{color:var(--brown);border-bottom-color:var(--brown)}
+.chev{font-size:9px;color:var(--grey-400);margin-left:2px;transition:transform .2s}
+.nav-item:hover .chev{transform:rotate(180deg)}
+.mega{position:absolute;top:100%;left:0;background:var(--white);border:1px solid var(--brown-border);border-top:2px solid var(--brown);box-shadow:0 8px 32px rgba(0,0,0,.08);border-radius:0 0 8px 8px;padding:22px 26px;min-width:200px;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .18s,transform .18s;z-index:600}
+.nav-item:hover .mega{opacity:1;pointer-events:all;transform:translateY(0)}
+.mega.wide{min-width:620px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.mega-head{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--brown);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--brown-border)}
+.mega-link{display:block;padding:5px 0;font-size:13px;color:var(--grey-600);text-decoration:none;transition:all .12s}
+.mega-link:hover{color:var(--brown);padding-left:4px}
+.nav-right{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.nav-search{display:none}
+.nav-search:focus-within{border-color:var(--brown);background:var(--white)}
+.nav-search input{border:none;background:none;outline:none;font-family:var(--font);font-size:13px;color:var(--black);width:100%}
+.nav-search input::placeholder{color:var(--grey-400)}
+.nav-wa{display:flex;align-items:center;gap:6px;background:var(--wa);color:#fff;padding:8px 15px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;transition:background .15s;white-space:nowrap}
+.nav-wa:hover{background:var(--wa-dark)}
+.nav-wa svg{width:14px;height:14px}
+
+/* HAMBURGER */
+.hamburger{display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border:none;background:none}
+.hamburger span{width:24px;height:2px;background:var(--black);border-radius:2px;transition:all .3s;display:block}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* MOBILE MENU */
+.mobile-menu{
+  display:none;position:fixed;top:0;right:0;bottom:0;
+  width:280px;max-width:85vw;
+  background:var(--white);z-index:800;overflow-y:auto;
+  padding:20px 0 40px;flex-direction:column;
+  box-shadow:-4px 0 24px rgba(0,0,0,.15);
+  transform:translateX(100%);transition:transform .28s ease;
+}
+.mobile-menu.open{display:flex;transform:translateX(0)}
+.mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:799;backdrop-filter:blur(2px)}
+.mob-overlay.open{display:block}
+.mob-item{padding:13px 20px;border-bottom:1px solid var(--brown-border);font-size:14px;font-weight:600;color:var(--black);cursor:pointer;display:flex;align-items:center;justify-content:space-between}
+.mob-item:hover{color:var(--brown)}
+.mob-sub{padding:4px 0;display:none;flex-direction:column;background:var(--cream)}
+.mob-sub.open{display:flex}
+.mob-sub a{padding:9px 20px 9px 32px;font-size:13px;color:var(--grey-600);text-decoration:none;border-bottom:1px solid var(--grey-100);display:block}
+.mob-sub a:hover{color:var(--brown)}
+.mob-wa{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--wa);color:#fff;padding:13px 20px;font-size:13px;font-weight:700;text-decoration:none;margin:16px 20px 0;border-radius:8px}
+.mob-social{display:flex;gap:8px;margin:10px 20px 0}
+.mob-ig,.mob-fb{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 12px;font-size:12px;font-weight:700;text-decoration:none;border-radius:8px;color:#fff}
+.mob-ig{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)}
+.mob-fb{background:#1877f2}
+.nav-ig,.nav-fb{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:6px;color:#fff;text-decoration:none;flex-shrink:0;transition:opacity .15s}
+.nav-ig{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)}
+.nav-fb{background:#1877f2}
+.nav-ig:hover,.nav-fb:hover{opacity:.85}
+.nav-ig svg,.nav-fb svg{width:16px;height:16px}
+.mob-close{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 16px 20px;border-bottom:1px solid var(--brown-border);margin-bottom:8px;font-size:14px;font-weight:700;color:var(--black);border:none;background:none;cursor:pointer;width:100%;font-family:'Inter',sans-serif}
+.mob-close-x{font-size:20px;color:var(--grey-400)}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#111111 0%,#000000 55%,#000000 100%);color:#fff;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-80px;top:-80px;width:480px;height:480px;border-radius:50%;background:rgba(255,255,255,.05)}
+.hero-inner{max-width:1380px;margin:0 auto;padding:70px 40px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:48px;position:relative;z-index:1}
+.hero-eye{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--brown-light);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.hero-eye::before{content:'';width:20px;height:1.5px;background:var(--brown-light)}
+.hero h1{font-size:44px;font-weight:700;line-height:1.1;letter-spacing:-1px;margin-bottom:16px}
+.hero h1 em{color:var(--brown-light);font-style:normal}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.62);line-height:1.75;margin-bottom:32px;max-width:460px;font-weight:300}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-cream{background:var(--cream);color:var(--brown-dark);border:none;padding:13px 28px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:opacity .15s}
+.btn-cream:hover{opacity:.9}
+.btn-ow{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.32);padding:13px 24px;border-radius:6px;font-size:14px;font-weight:500;cursor:pointer;font-family:var(--font);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:border-color .15s}
+.btn-ow:hover{border-color:rgba(255,255,255,.65)}
+.hero-visual{border-radius:16px;width:290px;height:260px;flex-shrink:0;position:relative;overflow:hidden}
+.hero-stats{display:flex;gap:36px;margin-top:36px;padding-top:28px;border-top:1px solid rgba(255,255,255,.1);flex-wrap:wrap}
+.sn{font-size:22px;font-weight:700;color:#fff}
+.sl{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px}
+
+/* STRIP */
+.strip{background:#f5f5f5;border-bottom:1px solid #e0e0e0;padding:10px 40px;font-size:12px;color:#333;font-weight:500;display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap}
+.strip-item{display:flex;align-items:center;gap:6px}
+.sdiv{color:var(--brown-border)}
+
+/* SECTION */
+.sec{max-width:1380px;margin:0 auto;padding:52px 40px}
+.sec-head{margin-bottom:32px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.sec-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--brown);margin-bottom:7px}
+.sec-title{font-size:26px;font-weight:700;letter-spacing:-.4px;color:var(--black)}
+.sec-link{font-size:13px;font-weight:600;color:var(--brown);text-decoration:none;display:flex;align-items:center;gap:4px;white-space:nowrap;margin-bottom:4px}
+.sec-link:hover{text-decoration:underline}
+
+/* CATEGORY TILES */
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.cat-tile{background:var(--cream);border:1px solid var(--brown-border);border-radius:8px;padding:22px 20px;display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--black);transition:all .2s;cursor:pointer}
+.cat-tile:hover{background:var(--brown);color:#fff;border-color:var(--brown);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.cat-tile:hover .ct-desc,.cat-tile:hover .ct-arr{color:rgba(255,255,255,.55)}
+.ct-icon{font-size:28px;flex-shrink:0}
+.ct-name{font-size:13px;font-weight:700;margin-bottom:3px}
+.ct-desc{font-size:11px;color:var(--grey-600);font-weight:300;transition:color .2s}
+.ct-arr{font-size:15px;color:var(--grey-400);flex-shrink:0;transition:color .2s}
+
+/* PRODUCT GRID */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.product-card{border:1px solid var(--brown-border);border-radius:8px;background:var(--white);overflow:hidden;cursor:pointer;transition:all .2s;display:flex;flex-direction:column}
+.product-card:hover{box-shadow:0 8px 28px rgba(0,0,0,.08);border-color:var(--brown-light);transform:translateY(-3px)}
+.pc-img{background:var(--cream);height:170px;display:flex;align-items:center;justify-content:center;font-size:56px;border-bottom:1px solid var(--grey-100);position:relative;overflow:hidden}
+.pc-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.pc-emoji{font-size:56px;z-index:1;position:relative}
+.pc-badge{position:absolute;top:10px;left:10px;font-size:9px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:3px 8px;border-radius:3px;z-index:2}
+.badge-popular{background:var(--brown);color:#fff}
+.badge-new{background:#c8953a;color:#fff}
+.badge-german{background:#1a3a5c;color:#fff}
+.badge-sale{background:#c0392b;color:#fff}
+.badge-bulk{background:#27632a;color:#fff}
+.pc-info{padding:13px 14px 15px;flex:1;display:flex;flex-direction:column;gap:5px}
+.pc-cat{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--brown)}
+.pc-name{font-size:13px;font-weight:600;color:var(--black);line-height:1.35}
+.pc-desc{font-size:12px;color:var(--grey-600);line-height:1.5;font-weight:300}
+.pc-price{font-size:15px;font-weight:700;color:var(--black);margin-top:auto;padding-top:6px}
+.pc-price .old{font-size:11px;color:var(--grey-400);text-decoration:line-through;font-weight:400;margin-right:4px}
+.pc-wa-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:10px;padding:9px;background:var(--wa);color:#fff;border:none;border-radius:5px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:background .15s;text-decoration:none}
+.pc-wa-btn:hover{background:var(--wa-dark)}
+.pc-wa-btn svg{width:12px;height:12px}
+
+/* SHEETS NOTE */
+.sheets-note{background:var(--brown-pale);border:1.5px dashed var(--brown-light);border-radius:8px;padding:24px 28px;text-align:center;margin-bottom:24px}
+.sheets-note h3{font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:6px}
+.sheets-note p{font-size:12px;color:var(--grey-600);line-height:1.65}
+.sheets-note code{background:rgba(0,0,0,.06);padding:2px 6px;border-radius:3px;font-size:11px;color:var(--brown-dark)}
+
+/* QUALITY BAR */
+.qbar{background:var(--cream2);border-top:1px solid var(--brown-border);border-bottom:1px solid var(--brown-border)}
+.qbar-inner{max-width:1380px;margin:0 auto;padding:28px 40px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.qi{display:flex;align-items:flex-start;gap:12px}
+.qi-icon{font-size:26px;flex-shrink:0;margin-top:2px}
+.qi-title{font-size:13px;font-weight:700;margin-bottom:3px;color:var(--black)}
+.qi-desc{font-size:12px;color:var(--grey-600);line-height:1.55;font-weight:300}
+
+/* BRANDS */
+.brands{border-top:1px solid var(--brown-border);border-bottom:1px solid var(--brown-border);padding:22px 40px}
+.brands-inner{max-width:1380px;margin:0 auto;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.b-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey-400);white-space:nowrap}
+.b-list{display:flex;gap:9px;flex-wrap:wrap}
+.b-tag{background:var(--cream);border:1px solid var(--brown-border);border-radius:4px;padding:4px 12px;font-size:12px;font-weight:700;color:var(--grey-800);letter-spacing:.4px}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(26,18,8,.52);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s;backdrop-filter:blur(5px)}
+.modal-bg.open{opacity:1;pointer-events:all}
+.modal{background:var(--white);border-radius:10px;max-width:680px;width:100%;max-height:92vh;overflow-y:auto;transform:translateY(20px) scale(.97);transition:transform .22s;box-shadow:0 24px 72px rgba(0,0,0,.18)}
+.modal-bg.open .modal{transform:none}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:17px 22px;border-bottom:1px solid var(--brown-border);position:sticky;top:0;background:var(--white);z-index:1;border-radius:10px 10px 0 0}
+.modal-head h3{font-size:15px;font-weight:700}
+.modal-x{width:32px;height:32px;border-radius:6px;border:1.5px solid var(--brown-border);background:var(--white);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--grey-600);transition:all .15s}
+.modal-x:hover{background:var(--cream);color:var(--black)}
+.modal-body{padding:22px}
+.modal-top{display:flex;gap:22px;margin-bottom:26px}
+.modal-img{width:150px;height:150px;flex-shrink:0;border-radius:8px;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:68px;border:1px solid var(--brown-border);overflow:hidden}
+.modal-img img{width:100%;height:100%;object-fit:cover}
+.m-cat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--brown);margin-bottom:7px}
+.m-name{font-size:20px;font-weight:700;margin-bottom:9px;letter-spacing:-.2px;line-height:1.2}
+.m-desc{font-size:13px;color:var(--grey-600);line-height:1.7;font-weight:300}
+.m-price-row{margin-top:12px;display:flex;align-items:baseline;gap:8px}
+.m-price{font-size:24px;font-weight:700}
+.m-old{font-size:14px;color:var(--grey-400);text-decoration:line-through}
+.specs-sec{margin-bottom:22px}
+.specs-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--grey-400);margin-bottom:11px}
+.specs-tbl{border:1px solid var(--brown-border);border-radius:7px;overflow:hidden}
+.srow{display:grid;grid-template-columns:40% 60%;border-bottom:1px solid var(--grey-100)}
+.srow:last-child{border-bottom:none}
+.sk{padding:10px 13px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--grey-600);background:var(--cream);border-right:1px solid var(--grey-100)}
+.sv{padding:10px 13px;font-size:13px;font-weight:500;color:var(--black)}
+.m-avail{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--grey-600);margin-bottom:17px}
+.avail-dot{width:7px;height:7px;border-radius:50%;background:#27ae60;flex-shrink:0}
+.m-wa-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:var(--wa);color:#fff;border:none;border-radius:7px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);transition:background .15s;text-decoration:none}
+.m-wa-btn:hover{background:var(--wa-dark)}
+.m-wa-note{text-align:center;font-size:11px;color:var(--grey-400);margin-top:7px}
+
+/* FOOTER */
+.footer{background:var(--brown-dark);color:rgba(255,255,255,.65)}
+.footer-top{max-width:1380px;margin:0 auto;padding:44px 40px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px}
+.ft-name{font-size:16px;font-weight:700;color:#fff;margin-bottom:4px}
+.ft-tag{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--brown-light);margin-bottom:13px}
+.ft-about{font-size:12px;line-height:1.7;color:rgba(255,255,255,.45);font-weight:300;max-width:230px;margin-bottom:18px}
+.ft-soc{display:flex;gap:8px}
+.ft-soc a{width:32px;height:32px;border-radius:6px;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.5);text-decoration:none;font-size:14px;transition:all .15s}
+.ft-soc a:hover{background:var(--brown);border-color:var(--brown);color:#fff}
+.ft-col-h{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fff;margin-bottom:13px}
+.ft-lnk{display:block;font-size:12px;color:rgba(255,255,255,.45);text-decoration:none;padding:3px 0;transition:color .15s;font-weight:300}
+.ft-lnk:hover{color:#fff}
+.footer-btm{border-top:1px solid rgba(255,255,255,.08);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.28);flex-wrap:wrap;gap:8px}
+.footer-btm a{color:rgba(255,255,255,.28);text-decoration:none}
+.footer-btm a:hover{color:rgba(255,255,255,.6)}
+
+/* CATALOG */
+.cat-wrap{max-width:1380px;margin:0 auto;padding:36px 40px;display:grid;grid-template-columns:210px 1fr;gap:28px;align-items:start}
+.sidebar{position:sticky;top:calc(var(--nav-h) + 14px);background:var(--white);border:1px solid var(--brown-border);border-radius:8px;padding:18px}
+.sb-title{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--brown);margin-bottom:12px;padding-bottom:9px;border-bottom:1px solid var(--brown-border)}
+.sb-item{display:flex;align-items:center;gap:7px;padding:6px 0;font-size:13px;color:var(--grey-600);cursor:pointer;transition:color .12s;border-bottom:1px solid var(--grey-100)}
+.sb-item:last-child{border-bottom:none}
+.sb-item:hover,.sb-item.active{color:var(--brown);font-weight:600}
+.sb-item::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--grey-200);flex-shrink:0;transition:background .12s}
+.sb-item.active::before{background:var(--brown)}
+.cat-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;gap:14px;flex-wrap:wrap}
+.cat-search{display:flex;align-items:center;gap:7px;background:var(--white);border:1.5px solid var(--brown-border);border-radius:7px;padding:9px 13px;flex:1;max-width:420px;transition:border-color .2s}
+.cat-search:focus-within{border-color:var(--brown)}
+.cat-search input{border:none;background:none;outline:none;font-family:var(--font);font-size:13px;color:var(--black);width:100%}
+.cat-search input::placeholder{color:var(--grey-400)}
+.cat-count{font-size:13px;color:var(--grey-600);white-space:nowrap}
+.no-res{display:none;text-align:center;padding:56px;color:var(--grey-400);font-size:14px}
+
+/* ABOUT */
+.about-hero{background:var(--brown-dark);color:#fff;padding:80px 40px;text-align:center}
+.ah-inner{max-width:660px;margin:0 auto}
+.ah-eye{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--brown-light);margin-bottom:14px}
+.about-hero h1{font-size:40px;font-weight:700;letter-spacing:-.5px;margin-bottom:16px}
+.about-hero p{font-size:15px;color:rgba(255,255,255,.58);line-height:1.75;font-weight:300}
+.about-body{max-width:1100px;margin:0 auto;padding:60px 40px}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;margin-bottom:56px}
+.ab-img{background:var(--cream);border-radius:12px;height:290px;display:flex;align-items:center;justify-content:center;font-size:96px;border:1px solid var(--brown-border)}
+.ab-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--brown);margin-bottom:12px}
+.about-grid h2{font-size:28px;font-weight:700;letter-spacing:-.3px;margin-bottom:13px}
+.about-grid p{font-size:14px;color:var(--grey-600);line-height:1.8;font-weight:300;margin-bottom:11px}
+.cc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-top:36px}
+.cc{background:var(--white);border:1px solid var(--brown-border);border-radius:8px;padding:22px 18px;display:flex;flex-direction:column;gap:7px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.cc-icon{font-size:26px;margin-bottom:3px}
+.cc-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--brown)}
+.cc-title{font-size:14px;font-weight:700;color:var(--black)}
+.cc-val{font-size:12px;color:var(--grey-600);line-height:1.65;font-weight:300}
+.cc-link{font-size:12px;font-weight:700;color:var(--brown);text-decoration:none;margin-top:4px}
+.cc-link:hover{text-decoration:underline}
+.wa-cta-block{background:var(--brown-dark);border-radius:10px;padding:36px;display:flex;align-items:center;justify-content:space-between;gap:22px;margin-top:36px;flex-wrap:wrap}
+.wa-cta-block h3{font-size:22px;font-weight:700;color:#fff;margin-bottom:6px}
+.wa-cta-block p{font-size:13px;color:rgba(255,255,255,.48);font-weight:300}
+.wa-cta-btn{display:flex;align-items:center;gap:8px;background:var(--wa);color:#fff;padding:13px 26px;border-radius:7px;font-size:14px;font-weight:700;text-decoration:none;transition:background .15s;white-space:nowrap}
+.wa-cta-btn:hover{background:var(--wa-dark)}
+
+
+/* GLOBAL SEARCH BAR (below nav, always visible) */
+.global-search-bar{
+  background:var(--white);
+  border-bottom:1px solid var(--brown-border);
+  padding:14px 24px;
+}
+.global-search-inner{
+  max-width:900px;margin:0 auto;
+  display:flex;align-items:center;
+  background:var(--white);
+  border:1.5px solid #cccccc;
+  border-radius:6px;
+  overflow:hidden;
+  transition:border-color .2s;
+}
+.global-search-inner:focus-within{border-color:var(--black)}
+.global-search-inner svg{margin:0 14px;flex-shrink:0;color:#999}
+.global-search-inner input{
+  flex:1;border:none;outline:none;
+  font-family:var(--font);font-size:15px;
+  color:var(--black);padding:13px 8px;
+  background:transparent;
+}
+.global-search-inner input::placeholder{color:#aaa}
+.global-search-btn{
+  background:var(--black);color:#fff;
+  border:none;padding:13px 24px;
+  font-size:14px;font-weight:700;
+  cursor:pointer;font-family:var(--font);
+  transition:opacity .15s;white-space:nowrap;
+}
+.global-search-btn:hover{opacity:.85}
+@media(max-width:768px){
+  .global-search-bar{padding:10px 16px}
+  .global-search-inner input{font-size:14px;padding:11px 6px}
+  .global-search-btn{padding:11px 16px;font-size:13px}
+  .global-search-inner svg{margin:0 10px}
+}
+
+
+@media(max-width:768px){
+  .home-hero-title{font-size:28px!important}
+  .home-hero-sub{font-size:14px!important}
+}
+@media(max-width:480px){
+  .home-hero-title{font-size:24px!important}
+  .home-hero-stats{gap:20px!important}
+}
+
+/* PAGES */
+.page{display:none}
+.page.active{display:block;min-height:100vh;padding-top:0}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:1100px){
+  .topbar{padding:7px 24px}
+  .nav-inner{padding:0 24px}
+  .hero-inner{padding:56px 24px;gap:32px}
+  .hero h1{font-size:36px}
+  .hero-visual{width:100%;height:220px}
+  .sec{padding:40px 24px}
+  .qbar-inner{padding:24px;grid-template-columns:repeat(2,1fr)}
+  .footer-top{padding:36px 24px;grid-template-columns:1fr 1fr;gap:24px}
+  .footer-btm{padding:12px 24px}
+  .brands{padding:20px 24px}
+  .cat-grid{grid-template-columns:repeat(2,1fr)}
+  .cat-wrap{padding:24px}
+  .about-body{padding:40px 24px}
+}
+@media(max-width:768px){
+  .topbar{display:none!important}
+  .nav-cats{display:none}
+  .nav-right{display:flex;margin-left:auto}
+  .nav-search,.nav-ig,.nav-fb{display:none!important}
+  .nav-wa{display:flex!important}
+  .nav-inner{padding:0 12px;grid-template-columns:auto 1fr auto}
+  .hero-inner{grid-template-columns:1fr;gap:16px;padding:36px 20px}
+  .hero-visual{width:100%;height:200px;margin-top:12px}
+  .hero h1{font-size:28px}
+  .hero-sub{font-size:14px}
+  .hero-stats{gap:20px}
+  .sn{font-size:18px}
+  .strip{padding:8px 16px;gap:10px;font-size:11px}
+  .sec{padding:28px 16px}
+  .sec-head{flex-direction:column;align-items:flex-start;gap:6px}
+  .cat-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .cat-tile{padding:16px 12px;gap:10px}
+  .ct-icon{font-size:22px}
+  .ct-name{font-size:12px}
+  .ct-desc{display:none}
+  .product-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .pc-img{height:140px;font-size:44px}
+  .pc-emoji{font-size:44px}
+  .pc-info{padding:10px 11px 12px}
+  .pc-name{font-size:12px}
+  .qbar-inner{grid-template-columns:1fr 1fr;gap:16px;padding:20px 16px}
+  .brands{padding:16px}
+  .brands-inner{gap:14px}
+  .footer-top{grid-template-columns:1fr 1fr;gap:20px;padding:28px 16px}
+  .footer-btm{padding:12px 16px;flex-direction:column;text-align:center}
+  .cat-wrap{grid-template-columns:1fr;padding:16px}
+  .sidebar{position:static;margin-bottom:16px}
+  #sb-cats{display:flex;flex-wrap:wrap;gap:6px}
+  .sb-item{border:1px solid var(--brown-border);border-radius:20px;padding:5px 12px;font-size:12px;background:var(--cream);border-bottom:1px solid var(--brown-border)}
+  .sb-item::before{display:none}
+  .sb-item.active{background:var(--brown);color:#fff;border-color:var(--brown)}
+  .about-hero{padding:52px 20px}
+  .about-hero h1{font-size:28px}
+  .about-grid{grid-template-columns:1fr;gap:28px}
+  .ab-img{height:200px;font-size:72px}
+  .about-body{padding:28px 16px}
+  .cc-grid{grid-template-columns:1fr 1fr}
+  .wa-cta-block{flex-direction:column;text-align:center;padding:28px 20px}
+  .modal-top{flex-direction:column;gap:16px}
+  .modal-img{width:100%;height:180px}
+}
+@media(max-width:420px){
+  .hero-visual{height:160px}
+
+  .cat-grid{grid-template-columns:1fr}
+  .cc-grid{grid-template-columns:1fr}
+  .hero-stats{gap:14px}
+  .product-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-top{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- Floating WhatsApp -->
+<a class="wa-float" href="https://wa.me/923278233552?text=Hi%20Burhani%20Tools!%20I%20want%20to%20place%20an%20order." target="_blank">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  Contact Now
+</a>
+
+<!-- Mobile overlay -->
+<div class="mob-overlay" id="mobOverlay" onclick="closeMenu()"></div>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobMenu">
+  <button class="mob-close" onclick="closeMenu()">
+    <span>Menu</span>
+    <span class="mob-close-x">✕</span>
+  </button>
+  <div class="mob-item" onclick="navTo('home')">Home</div>
+  <div class="mob-item" onclick="navTo('catalog','popular')">⭐ Most Popular</div>
+  <div class="mob-item" onclick="navTo('catalog','essential')">🔩 Essential Tools</div>
+  <div class="mob-item" onclick="navTo('catalog','swiss')">🇨🇭 Swiss &amp; German</div>
+  <div class="mob-item" onclick="navTo('catalog','manufactured')">🏭 Own Manufactured</div>
+  <div class="mob-item" onclick="navTo('catalog','indian')">🔨 Indian Tools</div>
+  <div class="mob-item" onclick="navTo('catalog','bulk')">📦 Bulk Orders</div>
+  <div class="mob-item" onclick="navTo('catalog')">🗂️ All Products</div>
+  <div class="mob-item" onclick="navTo('about')">ℹ️ About Us</div>
+  <a class="mob-wa" href="https://wa.me/923278233552?text=Hi%20New%20Burhani%20Tools!%20I%20want%20to%20place%20an%20order." target="_blank">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Order on WhatsApp
+  </a>
+  <div class="mob-social">
+    <a class="mob-ig" href="https://www.instagram.com/newburhanitools?igsh=dzZ5cm1lcjQya25p" target="_blank" aria-label="Instagram">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.5.9.4.4.7.9.9 1.5.2.4.4 1 .4 2.2.1 1.2.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.5-.4.4-.9.7-1.5.9-.4.2-1 .4-2.2.4-1.2.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.5-.9-.4-.4-.7-.9-.9-1.5-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.5.4-.4.9-.7 1.5-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2M12 0C8.7 0 8.3 0 7.1.1 5.8.1 5 .3 4.2.6c-.8.3-1.5.7-2.2 1.4C1.3 2.7.9 3.4.6 4.2.3 5 .1 5.8.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.1 1.3.3 2.1.6 2.9.3.8.7 1.5 1.4 2.2.7.7 1.4 1.1 2.2 1.4.8.3 1.6.5 2.9.6 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c1.3-.1 2.1-.3 2.9-.6.8-.3 1.5-.7 2.2-1.4.7-.7 1.1-1.4 1.4-2.2.3-.8.5-1.6.6-2.9.1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.1-1.3-.3-2.1-.6-2.9-.3-.8-.7-1.5-1.4-2.2C21.3 1.3 20.6.9 19.8.6 19 .3 18.2.1 16.9.1 15.7 0 15.3 0 12 0zm0 5.8c-3.4 0-6.2 2.8-6.2 6.2s2.8 6.2 6.2 6.2 6.2-2.8 6.2-6.2S15.4 5.8 12 5.8zm0 10.2c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zm6.4-11.8c-.8 0-1.4.6-1.4 1.4s.6 1.4 1.4 1.4 1.4-.6 1.4-1.4-.6-1.4-1.4-1.4z"/></svg>
+      Instagram
+    </a>
+    <a class="mob-fb" href="https://www.facebook.com/share/17WSVJLUvM/" target="_blank" aria-label="Facebook">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12c0-6.6-5.4-12-12-12S0 5.4 0 12c0 6 4.4 11 10.1 11.9v-8.4H7.1V12h3v-2.6c0-3 1.8-4.6 4.5-4.6 1.3 0 2.7.2 2.7.2v2.9h-1.5c-1.5 0-2 .9-2 1.9V12h3.3l-.5 3.5h-2.8v8.4C19.6 23 24 18 24 12z"/></svg>
+      Facebook
+    </a>
+  </div>
+</div>
+
+<!-- Top Bar -->
+<div class="topbar">
+  <div class="topbar-left">
+    <a href="#" onclick="showPage('about')">📞 Contact Us</a>
+    <span class="tdiv">|</span>
+    <a href="#" onclick="showPage('about')">Bulk Orders</a>
+    <span class="tdiv">|</span>
+    <a href="#" onclick="showPage('about')">Nationwide Delivery</a>
+  </div>
+  <div class="topbar-right">
+    <a href="https://www.instagram.com/newburhanitools?igsh=dzZ5cm1lcjQya25p" target="_blank">📸</a>
+    <a href="https://www.facebook.com/share/17WSVJLUvM/" target="_blank">👥</a>
+    <span class="tdiv">|</span>
+    <a class="topbar-wa" href="https://wa.me/923278233552" target="_blank">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      +92 327 8233552
+    </a>
+  </div>
+</div>
+
+<!-- Nav -->
+<nav class="main-nav">
+  <div class="nav-inner">
+    <button class="hamburger" id="hamBtn" onclick="openMenu()"><span></span><span></span><span></span></button>
+    <a class="nav-logo" href="#" onclick="showPage('home')">
+      <img class="nav-logo-img" id="navLogo" alt="New Burhani Tools Logo" style="display:none">
+      <div class="nav-logo-text">
+        <span class="nav-logo-name">New Burhani Tools</span>
+        <span class="nav-logo-sub">Quality Since Day One</span>
+      </div>
+    </a>
+    <div class="nav-cats">
+      <div class="nav-item"><button onclick="showPage('home')">Home</button></div>
+      <div class="nav-item">
+        <button>Most Popular <span class="chev">▾</span></button>
+        <div class="mega"><div class="mega-head">Best Sellers</div>
+          <a class="mega-link" href="#" onclick="goToCat('popular')">All Best Sellers</a>
+          <a class="mega-link" href="#" onclick="goToCat('popular')">Top Rated Tools</a>
+          <a class="mega-link" href="#" onclick="goToCat('popular')">New Arrivals</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button>Essential Tools <span class="chev">▾</span></button>
+        <div class="mega wide">
+          <div><div class="mega-head">Hand Tools</div>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Hammers & Mallets</a>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Wrenches & Spanners</a>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Pliers & Cutters</a>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Screwdrivers</a>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Chisels & Punches</a>
+          </div>
+          <div><div class="mega-head">Measuring</div>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Tape Measures</a>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Spirit Levels</a>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Calipers & Gauges</a>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Squares & Rulers</a>
+          </div>
+          <div><div class="mega-head">Power Accessories</div>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Drill Bits</a>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Saw Blades</a>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Grinding Discs</a>
+            <a class="mega-link" href="#" onclick="goToCat('essential')">Cutting Tools</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button>Swiss & German <span class="chev">▾</span></button>
+        <div class="mega wide">
+          <div><div class="mega-head">German Brands</div>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">GEDORE</a>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">WERA</a>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">KNIPEX</a>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">STAHLWILLE</a>
+          </div>
+          <div><div class="mega-head">Swiss & European</div>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">BAHCO</a>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">FACOM</a>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">PB Swiss Tools</a>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">HAZET</a>
+          </div>
+          <div><div class="mega-head">Categories</div>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">Precision Wrenches</a>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">Torque Tools</a>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">Socket Sets</a>
+            <a class="mega-link" href="#" onclick="goToCat('swiss')">Pliers Sets</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button>Own Manufactured <span class="chev">▾</span></button>
+        <div class="mega"><div class="mega-head">Burhani Brand</div>
+          <a class="mega-link" href="#" onclick="goToCat('manufactured')">Drill Bits</a>
+          <a class="mega-link" href="#" onclick="goToCat('manufactured')">Chisel Sets</a>
+          <a class="mega-link" href="#" onclick="goToCat('manufactured')">Socket Sets</a>
+          <a class="mega-link" href="#" onclick="goToCat('manufactured')">Workshop Sets</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button>Indian Tools <span class="chev">▾</span></button>
+        <div class="mega"><div class="mega-head">Indian Brands</div>
+          <a class="mega-link" href="#" onclick="goToCat('indian')">Taparia</a>
+          <a class="mega-link" href="#" onclick="goToCat('indian')">Eastman</a>
+          <a class="mega-link" href="#" onclick="goToCat('indian')">Groz</a>
+          <a class="mega-link" href="#" onclick="goToCat('indian')">Stanley India</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button>Bulk Orders <span class="chev">▾</span></button>
+        <div class="mega"><div class="mega-head">Wholesale</div>
+          <a class="mega-link" href="#" onclick="goToCat('bulk')">Bulk Wrench Sets</a>
+          <a class="mega-link" href="#" onclick="goToCat('bulk')">Bulk Screwdrivers</a>
+          <a class="mega-link" href="#" onclick="goToCat('bulk')">Bulk Drill Bits</a>
+          <a class="mega-link" href="#" onclick="goToCat('bulk')">Custom Quote</a>
+        </div>
+      </div>
+    </div>
+    <div class="nav-right">
+      <a class="nav-wa" href="https://wa.me/923278233552?text=Hi%20New%20Burhani%20Tools!%20I%20want%20to%20place%20an%20order." target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Order on WhatsApp
+      </a>
+      <a class="nav-ig" href="https://www.instagram.com/newburhanitools?igsh=dzZ5cm1lcjQya25p" target="_blank" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.5.9.4.4.7.9.9 1.5.2.4.4 1 .4 2.2.1 1.2.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.5-.4.4-.9.7-1.5.9-.4.2-1 .4-2.2.4-1.2.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.5-.9-.4-.4-.7-.9-.9-1.5-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.5.4-.4.9-.7 1.5-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2M12 0C8.7 0 8.3 0 7.1.1 5.8.1 5 .3 4.2.6c-.8.3-1.5.7-2.2 1.4C1.3 2.7.9 3.4.6 4.2.3 5 .1 5.8.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.1 1.3.3 2.1.6 2.9.3.8.7 1.5 1.4 2.2.7.7 1.4 1.1 2.2 1.4.8.3 1.6.5 2.9.6 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c1.3-.1 2.1-.3 2.9-.6.8-.3 1.5-.7 2.2-1.4.7-.7 1.1-1.4 1.4-2.2.3-.8.5-1.6.6-2.9.1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.1-1.3-.3-2.1-.6-2.9-.3-.8-.7-1.5-1.4-2.2C21.3 1.3 20.6.9 19.8.6 19 .3 18.2.1 16.9.1 15.7 0 15.3 0 12 0zm0 5.8c-3.4 0-6.2 2.8-6.2 6.2s2.8 6.2 6.2 6.2 6.2-2.8 6.2-6.2S15.4 5.8 12 5.8zm0 10.2c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zm6.4-11.8c-.8 0-1.4.6-1.4 1.4s.6 1.4 1.4 1.4 1.4-.6 1.4-1.4-.6-1.4-1.4-1.4z"/></svg>
+      </a>
+      <a class="nav-fb" href="https://www.facebook.com/share/17WSVJLUvM/" target="_blank" aria-label="Facebook" title="Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12c0-6.6-5.4-12-12-12S0 5.4 0 12c0 6 4.4 11 10.1 11.9v-8.4H7.1V12h3v-2.6c0-3 1.8-4.6 4.5-4.6 1.3 0 2.7.2 2.7.2v2.9h-1.5c-1.5 0-2 .9-2 1.9V12h3.3l-.5 3.5h-2.8v8.4C19.6 23 24 18 24 12z"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- GLOBAL SEARCH BAR -->
+<div class="global-search-bar" id="globalSearchBar">
+  <div class="global-search-inner">
+    <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="globalSearchInput" placeholder="What are you looking for?" oninput="globalSearch(this.value)">
+    <button class="global-search-btn" onclick="doGlobalSearch()">Search</button>
+  </div>
+</div>
+
+
+<!-- ═══ HOME ═══ -->
+<div id="page-home" class="page active">
+  <div class="strip">
+    <div class="strip-item">📦 Nationwide Delivery</div><span class="sdiv">·</span>
+    <div class="strip-item">🇨🇭 Genuine Swiss & German Brands</div><span class="sdiv">·</span>
+    <div class="strip-item">🏭 Own Manufactured Range</div><span class="sdiv">·</span>
+    <div class="strip-item">📦 Bulk Orders — <a href="https://wa.me/923278233552?text=Hi!%20Bulk%20quote%20please." target="_blank" style="color:#111;font-weight:700">Get Quote</a></div>
+  </div>
+
+
+  <!-- HERO SECTION -->
+  <div style="background:linear-gradient(135deg,#111111 0%,#000000 100%);color:#fff;padding:56px 40px 52px;position:relative;overflow:hidden">
+    <div style="position:absolute;right:-60px;top:-60px;width:400px;height:400px;border-radius:50%;background:rgba(255,255,255,.03);pointer-events:none"></div>
+    <div style="max-width:900px;margin:0 auto;text-align:center;position:relative;z-index:1">
+      <div style="font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:#888;margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:10px">
+        <span style="display:inline-block;width:20px;height:1.5px;background:#888"></span>
+        Trusted by Professionals Across Pakistan
+        <span style="display:inline-block;width:20px;height:1.5px;background:#888"></span>
+      </div>
+      <h1 style="font-size:44px;font-weight:700;line-height:1.1;letter-spacing:-1px;margin-bottom:16px;color:#fff">
+        Tools Built for <em style="color:#ccc;font-style:normal">Real Work</em>
+      </h1>
+      <p style="font-size:16px;color:rgba(255,255,255,.55);line-height:1.75;margin-bottom:32px;max-width:560px;margin-left:auto;margin-right:auto;font-weight:300">
+        From Swiss &amp; German precision instruments to our own manufactured range — quality tools at every price point, delivered nationwide.
+      </p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:40px">
+        <a href="#" onclick="showPage('catalog')" style="background:#fff;color:#111;padding:13px 28px;border-radius:6px;font-size:14px;font-weight:700;text-decoration:none;transition:opacity .15s">Browse All Products</a>
+        <a href="https://wa.me/923278233552?text=Hi!%20I%20want%20a%20bulk%20order%20quote." target="_blank" style="background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.3);padding:13px 24px;border-radius:6px;font-size:14px;font-weight:500;text-decoration:none">Get Bulk Quote →</a>
+      </div>
+      <div style="display:flex;gap:40px;justify-content:center;padding-top:28px;border-top:1px solid rgba(255,255,255,.1);flex-wrap:wrap">
+        <div><div style="font-size:22px;font-weight:700;color:#fff">100+</div><div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;letter-spacing:.3px">Products</div></div>
+        <div><div style="font-size:22px;font-weight:700;color:#fff">6</div><div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;letter-spacing:.3px">Categories</div></div>
+        <div><div style="font-size:22px;font-weight:700;color:#fff">24hr</div><div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;letter-spacing:.3px">Fast Delivery</div></div>
+        <div><div style="font-size:22px;font-weight:700;color:#fff">4.9★</div><div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;letter-spacing:.3px">Rating</div></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- HOME SEARCH RESULTS (shown when user types in home search bar) -->
+  <div id="homeSearchResults" style="display:none;background:var(--white);border-top:1px solid var(--brown-border);overflow:anchor none">
+    <div style="max-width:1380px;margin:0 auto;padding:36px 40px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px">
+        <div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--brown);margin-bottom:6px">Search Results</div>
+          <div class="sec-title" id="homeSearchTitle">Showing results</div>
+        </div>
+        <button onclick="clearHomeSearch()" style="font-size:13px;color:var(--brown);font-weight:600;background:var(--brown-pale);border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-family:'Inter',sans-serif">✕ Clear Search</button>
+      </div>
+      <div class="product-grid" id="homeSearchGrid"></div>
+      <div id="homeSearchEmpty" style="display:none;text-align:center;padding:48px;color:var(--grey-400);font-size:14px">No products found. Try different keywords.</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <div><div class="sec-label">Browse By</div><div class="sec-title">Shop by Category</div></div>
+      <a class="sec-link" href="#" onclick="showPage('catalog')">View All Products →</a>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-tile" onclick="goToCat('popular')"><div class="ct-icon">⭐</div><div><div class="ct-name">Most Popular</div><div class="ct-desc">Our best-selling tools</div></div><div class="ct-arr">→</div></div>
+      <div class="cat-tile" onclick="goToCat('essential')"><div class="ct-icon">🔩</div><div><div class="ct-name">Essential Tools & Equipment</div><div class="ct-desc">Everyday hand tools & measuring</div></div><div class="ct-arr">→</div></div>
+      <div class="cat-tile" onclick="goToCat('swiss')"><div class="ct-icon">🇨🇭</div><div><div class="ct-name">Swiss & German Tools</div><div class="ct-desc">GEDORE, WERA, KNIPEX, BAHCO</div></div><div class="ct-arr">→</div></div>
+      <div class="cat-tile" onclick="goToCat('manufactured')"><div class="ct-icon">🏭</div><div><div class="ct-name">Our Own Manufactured</div><div class="ct-desc">In-house Burhani brand</div></div><div class="ct-arr">→</div></div>
+      <div class="cat-tile" onclick="goToCat('indian')"><div class="ct-icon">🔨</div><div><div class="ct-name">Indian Tools</div><div class="ct-desc">Taparia, Eastman, Groz & more</div></div><div class="ct-arr">→</div></div>
+      <div class="cat-tile" onclick="goToCat('bulk')"><div class="ct-icon">📦</div><div><div class="ct-name">For Bulk Orders</div><div class="ct-desc">Wholesale pricing for contractors</div></div><div class="ct-arr">→</div></div>
+    </div>
+  </div>
+  <div style="background:var(--cream2);border-top:1px solid var(--brown-border);border-bottom:1px solid var(--brown-border)">
+    <div class="sec">
+      <div class="sec-head">
+        <div><div class="sec-label">Best Sellers</div><div class="sec-title">Most Popular</div></div>
+        <a class="sec-link" href="#" onclick="goToCat('popular')">View All →</a>
+      </div>
+      <div class="product-grid" id="home-grid"></div>
+    </div>
+  </div>
+  <div class="qbar"><div class="qbar-inner">
+    <div class="qi"><div class="qi-icon">🏆</div><div><div class="qi-title">100% Genuine Products</div><div class="qi-desc">Every item sourced from authorized distributors.</div></div></div>
+    <div class="qi"><div class="qi-icon">🚚</div><div><div class="qi-title">Nationwide Delivery</div><div class="qi-desc">Fast, safe shipping to all major cities.</div></div></div>
+    <div class="qi"><div class="qi-icon">💬</div><div><div class="qi-title">WhatsApp Ordering</div><div class="qi-desc">No forms. Message us and order in minutes.</div></div></div>
+    <div class="qi"><div class="qi-icon">📦</div><div><div class="qi-title">Bulk Order Specialists</div><div class="qi-desc">Special wholesale pricing for contractors.</div></div></div>
+  </div></div>
+</div>
+
+<!-- ═══ CATALOG ═══ -->
+<div id="page-catalog" class="page">
+  <div style="background:var(--cream2);border-bottom:1px solid var(--brown-border);padding:22px 40px;position:relative;z-index:1">
+    <div style="max-width:1380px;margin:0 auto">
+      <div style="font-size:12px;color:var(--grey-400);margin-bottom:5px"><span style="cursor:pointer;color:var(--brown)" onclick="showPage('home')">Home</span> / Product Catalog</div>
+      <h1 style="font-size:24px;font-weight:700;letter-spacing:-.3px">Product Catalog</h1>
+    </div>
+  </div>
+  <div class="cat-wrap">
+    <div class="sidebar">
+      <div class="sb-title">Filter by Category</div>
+      <div id="sb-cats">
+        <div class="sb-item active" onclick="filterSB('all',this)">All Products</div>
+        <div class="sb-item" onclick="filterSB('popular',this)">⭐ Most Popular</div>
+        <div class="sb-item" onclick="filterSB('essential',this)">🔩 Essential Tools</div>
+        <div class="sb-item" onclick="filterSB('swiss',this)">🇨🇭 Swiss & German</div>
+        <div class="sb-item" onclick="filterSB('manufactured',this)">🏭 Own Manufactured</div>
+        <div class="sb-item" onclick="filterSB('indian',this)">🔨 Indian Tools</div>
+        <div class="sb-item" onclick="filterSB('bulk',this)">📦 Bulk Orders</div>
+      </div>
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--brown-border)">
+        <div class="sb-title">Quick Order</div>
+        <a href="https://wa.me/923278233552?text=Hi!%20I%20want%20to%20order." target="_blank" style="display:flex;align-items:center;gap:7px;background:var(--wa);color:#fff;padding:10px 13px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;margin-top:9px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Order on WhatsApp
+        </a>
+        <div style="font-size:11px;color:var(--grey-400);margin-top:8px;line-height:1.6">Can't find a product? Message us and we'll source it.</div>
+      </div>
+    </div>
+    <div>
+      <div class="cat-top">
+        <div class="cat-search">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--grey-400);flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="mainSearch" placeholder="Search by name, brand, category…" oninput="liveSearch(this.value)">
+        </div>
+        <div class="cat-count" id="catCount"></div>
+      </div>
+      <div class="sheets-note" id="sheetsNote" style="display:none">
+        <h3>📦 Loading products…</h3>
+        <p>Fetching the latest catalog from your Google Sheet.</p>
+      </div>
+      <div class="product-grid" id="cat-grid"></div>
+      <div class="no-res" id="noRes">No products found. Try different keywords or browse a category.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ABOUT ═══ -->
+<div id="page-about" class="page">
+  <div class="about-hero">
+    <div class="ah-inner">
+      <div class="ah-eye">About New Burhani Tools</div>
+      <h1>Built on Trust,<br>Driven by Quality</h1>
+      <p>Karachi-based tools supplier bringing the best hand tools, power tools and equipment to professionals and businesses across Pakistan.</p>
+    </div>
+  </div>
+  <div class="about-body">
+    <div class="about-grid">
+      <div class="ab-img">🔧</div>
+      <div>
+        <div class="ab-lbl">Our Story</div>
+        <h2>Years of Trusted Tool Supply</h2>
+        <p>New Burhani Tools was founded with a single mission: to make professional-grade tools accessible to every workshop, contractor and tradesperson in Pakistan.</p>
+        <p>We carry an extensive range from trusted Swiss and German brands alongside our own in-house manufactured line — designed specifically for the demands of the local market.</p>
+        <p>Whether you're a solo mechanic or running a large construction firm, we have the right tools at the right price — with the convenience of WhatsApp ordering and nationwide delivery.</p>
+      </div>
+    </div>
+    <div style="margin-bottom:28px"><div class="sec-label">Get In Touch</div><div class="sec-title">Contact Us</div></div>
+    <div class="cc-grid">
+      <div class="cc">
+        <div class="cc-icon">📍</div><div class="cc-lbl">Our Location</div>
+        <div class="cc-title">Saddar, Karachi</div>
+        <div class="cc-val">New Burhani Tools<br>Near Al Rehman Biryani<br>Opposite Indus Hotel<br>Saddar, Karachi</div>
+      </div>
+      <div class="cc">
+        <div class="cc-icon">📞</div><div class="cc-lbl">Phone</div>
+        <div class="cc-title">021-35211171</div>
+        <div class="cc-val">Call us during business hours for orders and inquiries.</div>
+        <a class="cc-link" href="tel:02135211171">Call Now →</a>
+      </div>
+      <div class="cc">
+        <div class="cc-icon">💬</div><div class="cc-lbl">WhatsApp</div>
+        <div class="cc-title">+92 327 8233552</div>
+        <div class="cc-val">Fast replies for orders, quotes and support — usually within minutes.</div>
+        <a class="cc-link" href="https://wa.me/923278233552" target="_blank">Chat Now →</a>
+      </div>
+      <div class="cc">
+        <div class="cc-icon">✉️</div><div class="cc-lbl">Email</div>
+        <div class="cc-title">burhanitoolsnew@gmail.com</div>
+        <div class="cc-val">Send us an email for quotes, bulk orders or any inquiries.</div>
+        <a class="cc-link" href="mailto:burhanitoolsnew@gmail.com">Send Email →</a>
+      </div>
+      <div class="cc">
+        <div class="cc-icon">📸</div><div class="cc-lbl">Instagram</div>
+        <div class="cc-title">@newburhanitools</div>
+        <div class="cc-val">Follow for new arrivals, deals and product showcases.</div>
+        <a class="cc-link" href="https://www.instagram.com/newburhanitools?igsh=dzZ5cm1lcjQya25p" target="_blank">View Profile →</a>
+      </div>
+      <div class="cc">
+        <div class="cc-icon">👥</div><div class="cc-lbl">Facebook</div>
+        <div class="cc-title">New Burhani Tools</div>
+        <div class="cc-val">Like our page for updates and exclusive deals.</div>
+        <a class="cc-link" href="https://www.facebook.com/share/17WSVJLUvM/" target="_blank">Visit Page →</a>
+      </div>
+      <div class="cc">
+        <div class="cc-icon">📦</div><div class="cc-lbl">Bulk Orders</div>
+        <div class="cc-title">Wholesale Pricing</div>
+        <div class="cc-val">Orders of 10+ units get special wholesale pricing for workshops, contractors & resellers.</div>
+        <a class="cc-link" href="https://wa.me/923278233552?text=Hi!%20I%20want%20a%20bulk%20order%20quote." target="_blank">Get Bulk Quote →</a>
+      </div>
+      <div class="cc">
+        <div class="cc-icon">🕐</div><div class="cc-lbl">Business Hours</div>
+        <div class="cc-title">Mon – Sat</div>
+        <div class="cc-val">12:00 PM – 9:00 PM<br><br>WhatsApp orders accepted anytime.</div>
+      </div>
+    </div>
+    <div class="wa-cta-block">
+      <div><h3>Order Instantly on WhatsApp</h3><p>No account needed. Just message us the product and we'll handle the rest.</p></div>
+      <a class="wa-cta-btn" href="https://wa.me/923278233552?text=Hi%20Burhani%20Tools!%20I%20want%20to%20place%20an%20order." target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Chat on WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SHARED FOOTER (outside all pages) ═══ -->
+<div class="footer">
+  <div class="footer-top">
+    <div>
+      <div class="ft-name">New Burhani Tools</div><div class="ft-tag">Quality Since Day One</div>
+      <div class="ft-about">Your trusted source for hand tools, power tools and equipment in Pakistan. Swiss precision to our own manufactured range.</div>
+      <div class="ft-soc">
+        <a href="https://wa.me/923278233552" target="_blank" title="WhatsApp">💬</a>
+        <a href="https://www.instagram.com/newburhanitools?igsh=dzZ5cm1lcjQya25p" target="_blank" title="Instagram">📸</a>
+        <a href="https://www.facebook.com/share/17WSVJLUvM/" target="_blank" title="Facebook">👥</a>
+      </div>
+    </div>
+    <div><div class="ft-col-h">Categories</div>
+      <a class="ft-lnk" href="#" onclick="goToCat('popular')">Most Popular</a>
+      <a class="ft-lnk" href="#" onclick="goToCat('essential')">Essential Tools</a>
+      <a class="ft-lnk" href="#" onclick="goToCat('swiss')">Swiss & German</a>
+      <a class="ft-lnk" href="#" onclick="goToCat('manufactured')">Own Manufactured</a>
+      <a class="ft-lnk" href="#" onclick="goToCat('indian')">Indian Tools</a>
+      <a class="ft-lnk" href="#" onclick="goToCat('bulk')">Bulk Orders</a>
+    </div>
+    <div><div class="ft-col-h">Information</div>
+      <a class="ft-lnk" href="#" onclick="showPage('about')">About Us</a>
+      <a class="ft-lnk" href="#" onclick="showPage('about')">Contact Us</a>
+      <a class="ft-lnk" href="#" onclick="showPage('about')">Delivery Info</a>
+      <a class="ft-lnk" href="#" onclick="showPage('catalog')">All Products</a>
+    </div>
+    <div><div class="ft-col-h">Contact</div>
+      <a class="ft-lnk" href="https://wa.me/923278233552" target="_blank">WhatsApp: +92 327 8233552</a>
+      <a class="ft-lnk" href="tel:02135211171">Phone: 021-35211171</a>
+      <a class="ft-lnk" href="mailto:burhanitoolsnew@gmail.com">burhanitoolsnew@gmail.com</a>
+      <div class="ft-lnk" style="cursor:default">Saddar, Karachi</div>
+    </div>
+  </div>
+  <div class="footer-btm"><span>© 2026 New Burhani Tools · All rights reserved</span><div style="display:flex;gap:16px"><a href="#">Privacy Policy</a><a href="#">Returns Policy</a></div></div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modalBg" onclick="closeBg(event)">
+  <div class="modal"><div class="modal-head"><h3 id="mTitle"></h3><button class="modal-x" onclick="closeModal()">✕</button></div><div class="modal-body" id="mBody"></div></div>
+</div>
+
+<script>
+// ── LOGO LOADER ──
+// To use a logo, set LOGO_URL at the top of this file to your image URL.
+(function(){
+  const img = document.getElementById('navLogo');
+  if(LOGO_URL && LOGO_URL.trim()){
+    img.src = LOGO_URL;
+    img.style.display = '';
+    img.onerror = function(){ this.style.display = 'none'; };
+  }
+})();
+// ── SAMPLE PRODUCTS ──
+const SP = [
+  {id:1,cat:'popular',name:'Heavy Duty Combination Wrench Set',emoji:'🔧',image:'',price:'Rs 3,200',old:'Rs 3,900',badge:'popular',desc:'12-piece chrome vanadium combination wrench set. Ideal for automotive and mechanical work.',specs:[{k:'Pieces',v:'12 pcs (8–19mm)'},{k:'Material',v:'Chrome Vanadium Steel'},{k:'Finish',v:'Mirror Polish'},{k:'Case',v:'Roll-up Pouch'}],wa:'Hi! I want to order the Combination Wrench Set from Burhani Tools.'},
+  {id:2,cat:'popular',name:'Professional Screwdriver Set 32pc',emoji:'🪛',image:'',price:'Rs 1,850',old:'Rs 2,200',badge:'popular',desc:'32-piece screwdriver set with magnetic tips. Phillips, flat, Torx and more.',specs:[{k:'Pieces',v:'32 pcs'},{k:'Tips',v:'Phillips, Flat, Torx, Hex'},{k:'Handle',v:'Bi-material Ergonomic'},{k:'Case',v:'Hard Carry Case'}],wa:'Hi! I want to order the Screwdriver Set from Burhani Tools.'},
+  {id:3,cat:'popular',name:'Digital Vernier Caliper 150mm',emoji:'📏',image:'',price:'Rs 2,100',old:null,badge:'new',desc:'High-precision digital caliper. Internal, external, depth measurements.',specs:[{k:'Range',v:'0–150mm / 0–6"'},{k:'Resolution',v:'0.01mm'},{k:'Accuracy',v:'±0.02mm'},{k:'Battery',v:'LR44 Included'}],wa:'Hi! I need the Digital Vernier Caliper from Burhani Tools.'},
+  {id:4,cat:'popular',name:'Adjustable Pipe Wrench 14"',emoji:'🔩',image:'',price:'Rs 1,400',old:'Rs 1,700',badge:'popular',desc:'Heavy-duty drop forged adjustable pipe wrench for plumbing and pipe fitting.',specs:[{k:'Size',v:'14 inch'},{k:'Material',v:'Drop Forged Steel'},{k:'Jaw Capacity',v:'Up to 40mm'},{k:'Finish',v:'Black Oxide'}],wa:'Hi! I want the Pipe Wrench 14" from Burhani Tools.'},
+  {id:5,cat:'essential',name:'Claw Hammer 20oz',emoji:'🔨',image:'',price:'Rs 890',old:null,badge:'',desc:'Fiberglass handle claw hammer with shock-absorbing rubber grip.',specs:[{k:'Weight',v:'20 oz (567g)'},{k:'Handle',v:'Fiberglass'},{k:'Head',v:'Drop Forged Steel'}],wa:'Hi! I want the Claw Hammer 20oz from Burhani Tools.'},
+  {id:6,cat:'essential',name:'Tape Measure 8m / 25ft',emoji:'📐',image:'',price:'Rs 650',old:null,badge:'',desc:'Heavy duty steel blade tape measure with magnetic tip and auto-lock.',specs:[{k:'Length',v:'8m / 25ft'},{k:'Lock',v:'Auto-lock'},{k:'Tip',v:'Magnetic Double Rivet'}],wa:'Hi! I need the 8m Tape Measure from Burhani Tools.'},
+  {id:7,cat:'swiss',name:'Gedore Combination Spanner Set',emoji:'🇩🇪',image:'',price:'Rs 18,500',old:'Rs 22,000',badge:'german',desc:'Authentic German GEDORE combination spanner set. Professional precision work.',specs:[{k:'Brand',v:'GEDORE Germany'},{k:'Pieces',v:'16 pcs (7–24mm)'},{k:'Standard',v:'DIN 3113 Form B'},{k:'Finish',v:'Satin Chrome'}],wa:'Hi! I want the GEDORE Spanner Set. Please confirm stock.'},
+  {id:8,cat:'swiss',name:'Wera Screwdriver Set 15pc',emoji:'🇩🇪',image:'',price:'Rs 12,800',old:null,badge:'german',desc:'Premium WERA screwdriver set with Kraftform ergonomic handles.',specs:[{k:'Brand',v:'WERA Germany'},{k:'Pieces',v:'15 pcs'},{k:'Handle',v:'Kraftform Ergonomic'},{k:'Laser Tip',v:'Anti-slip'}],wa:'Hi! I want the Wera Screwdriver Set from Burhani Tools.'},
+  {id:9,cat:'manufactured',name:'Burhani Pro Drill Bits Set 25pc',emoji:'🏭',image:'',price:'Rs 2,400',old:'Rs 2,900',badge:'new',desc:'Own manufactured HSS drill bit set for concrete, metal and wood.',specs:[{k:'Brand',v:'Burhani Tools'},{k:'Pieces',v:'25 pcs'},{k:'Material',v:'HSS High Speed Steel'},{k:'Coating',v:'Titanium Coated'}],wa:'Hi! I want to order the Burhani Drill Bits Set.'},
+  {id:10,cat:'indian',name:'Taparia Combination Pliers Set',emoji:'🇮🇳',image:'',price:'Rs 1,950',old:null,badge:'',desc:'Taparia brand combination pliers — reliable, durable, widely used.',specs:[{k:'Brand',v:'Taparia India'},{k:'Pieces',v:'3 pcs Set'},{k:'Handles',v:'PVC Insulated 1000V'}],wa:'Hi! I want the Taparia Pliers Set from Burhani Tools.'},
+  {id:11,cat:'bulk',name:'Bulk Wrench Set (10 units)',emoji:'📦',image:'',price:'Rs 24,000',old:'Rs 32,000',badge:'bulk',desc:'Discounted pack of 10 combination wrench sets for workshops.',specs:[{k:'Units',v:'10 Sets'},{k:'Per Unit',v:'Rs 2,400 (save Rs 800)'},{k:'MOQ',v:'10 Units'}],wa:'Hi! I want the Bulk Wrench Set (10 units). Please confirm pricing.'},
+  {id:12,cat:'swiss',name:'Knipex Pliers Set 3pc',emoji:'🇩🇪',image:'',price:'Rs 9,500',old:null,badge:'german',desc:'Authentic KNIPEX pliers from Germany. Finest pliers for electricians.',specs:[{k:'Brand',v:'KNIPEX Germany'},{k:'Pieces',v:'3 pcs'},{k:'Types',v:'Combination, Diagonal, Long Nose'}],wa:'Hi! I want the Knipex Pliers Set from Burhani Tools.'},
+];
+
+let allP = [...SP];
+const WA = 'https://wa.me/923278233552?text=';
+const wa = m => WA + encodeURIComponent(m);
+const CL = {popular:'Most Popular',essential:'Essential Tools',swiss:'Swiss & German',manufactured:'Own Manufactured',indian:'Indian Tools',bulk:'Bulk Orders'};
+
+// Google Sheets Loader (proper CSV parser — handles quoted fields & newlines)
+function parseCSV(txt){
+  const rows = []; let row = []; let cur = ''; let inQ = false;
+  for(let i=0;i<txt.length;i++){
+    const c = txt[i];
+    if(inQ){
+      if(c === '"' && txt[i+1] === '"'){ cur += '"'; i++; }
+      else if(c === '"'){ inQ = false; }
+      else { cur += c; }
+    } else {
+      if(c === '"'){ inQ = true; }
+      else if(c === ','){ row.push(cur); cur = ''; }
+      else if(c === '\n'){ row.push(cur); rows.push(row); row = []; cur = ''; }
+      else if(c === '\r'){ /* ignore */ }
+      else { cur += c; }
+    }
+  }
+  if(cur.length || row.length){ row.push(cur); rows.push(row); }
+  return rows.filter(r => r.some(v => (v||'').trim()));
+}
+async function loadSheets(){
+  if(!SHEETS_ENABLED || !SHEET_CSV_URL || SHEET_CSV_URL.includes('YOUR_')) return;
+  try{
+    const r = await fetch(SHEET_CSV_URL);
+    const txt = await r.text();
+    const rows = parseCSV(txt);
+    if(rows.length < 2) return;
+    const hdrs = rows[0].map(h => (h||'').toLowerCase().trim());
+    const catMap = {
+      popular:'popular','most popular':'popular',bestseller:'popular','best seller':'popular',
+      essential:'essential','essential tools':'essential',hand:'essential','hand tools':'essential',
+      swiss:'swiss',german:'swiss','swiss & german':'swiss','swiss and german':'swiss','swiss/german':'swiss',
+      manufactured:'manufactured',own:'manufactured','own manufactured':'manufactured',burhani:'manufactured',
+      indian:'indian','indian tools':'indian',
+      bulk:'bulk','bulk orders':'bulk',wholesale:'bulk'
+    };
+    const parsed = rows.slice(1).map((row,i) => {
+      const o = { id: 1000 + i };
+      hdrs.forEach((h,j) => { o[h] = (row[j] || '').trim(); });
+      const rawCat = (o.category || o.cat || '').toLowerCase().trim();
+      o.cat = catMap[rawCat] || rawCat || 'essential';
+      o.desc = o.description || o.desc || '';
+      o.price = o.price || '';
+      o.old = o.oldprice || o.old || '';
+      o.badge = (o.badge || '').toLowerCase();
+      o.image = o.image || o.imageurl || o.img || '';
+      o.emoji = o.emoji || '🔧';
+      o.specs = o.specs ? o.specs.split('|').map(s => { const [k,...v] = s.split(':'); return k ? {k:k.trim(), v:v.join(':').trim()} : null; }).filter(Boolean) : [];
+      o.wa = o.wamessage || `Hi! I want to order ${o.name} from New Burhani Tools.`;
+      return o;
+    }).filter(p => p.name);
+    if(parsed.length){
+      allP = [...parsed];
+      const note = document.getElementById('sheetsNote');
+      if(note) note.style.display = 'none';
+      renderAll();
+    }
+  }catch(e){ console.log('Sheet error:', e); }
+}
+
+function badge(b){ if(!b) return ''; const m={popular:'POPULAR',new:'NEW',german:'GERMAN',sale:'SALE',bulk:'BULK'}; return `<span class="pc-badge badge-${b}">${m[b]||b.toUpperCase()}</span>`; }
+
+function cardHTML(p){
+  const old = p.old||p.oldprice ? `<span class="old">${p.old||p.oldprice}</span>` : '';
+  const hasImg = p.image && p.image.startsWith('http');
+  const imgContent = hasImg ? `<img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">` : '';
+  const emojiEl = `<span class="pc-emoji">${p.emoji||'🔧'}</span>`;
+  return `<div class="product-card" data-cat="${p.cat||''}" onclick="openModal(${p.id})">
+    <div class="pc-img">${imgContent}${!hasImg?emojiEl:''}${badge(p.badge)}</div>
+    <div class="pc-info">
+      <div class="pc-cat">${CL[p.cat]||p.cat}</div>
+      <div class="pc-name">${p.name}</div>
+      <div class="pc-desc">${(p.desc||p.description||'').substring(0,70)}…</div>
+      <div class="pc-price">${old}${p.price}</div>
+      <a class="pc-wa-btn" href="${wa(p.wa||'Hi! I want to order '+p.name+' from Burhani Tools.')}" target="_blank" onclick="event.stopPropagation()">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Order on WhatsApp
+      </a>
+    </div>
+  </div>`;
+}
+
+function renderAll(){
+  document.getElementById('home-grid').innerHTML = allP.filter(p=>p.cat==='popular').map(cardHTML).join('');
+  document.getElementById('cat-grid').innerHTML = allP.map(cardHTML).join('');
+  updCount(allP.length);
+}
+renderAll(); loadSheets();
+
+// Pages
+function showPage(p){ document.querySelectorAll('.page').forEach(x=>x.classList.remove('active')); document.getElementById('page-'+p).classList.add('active'); window.scrollTo(0, 0); closeMenu(); }
+function goToCat(cat){
+  showPage('catalog');
+  setTimeout(()=>{
+    activeF=cat;
+    document.querySelectorAll('.sb-item').forEach(x=>x.classList.remove('active'));
+    const map={all:0,popular:1,essential:2,swiss:3,manufactured:4,indian:5,bulk:6};
+    const items=document.querySelectorAll('#sb-cats .sb-item');
+    if(items[map[cat]]) items[map[cat]].classList.add('active');
+    applyFilter();
+  },80);
+}
+function navTo(page,cat){ if(cat) goToCat(cat); else showPage(page); }
+
+// Mobile menu
+function openMenu(){ document.getElementById('mobMenu').classList.add('open'); document.getElementById('mobOverlay').classList.add('open'); document.getElementById('hamBtn').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeMenu(){ document.getElementById('mobMenu').classList.remove('open'); document.getElementById('mobOverlay').classList.remove('open'); document.getElementById('hamBtn').classList.remove('open'); document.body.style.overflow=''; }
+
+// Filter
+let activeF='all';
+function filterSB(cat,el){ activeF=cat; document.querySelectorAll('.sb-item').forEach(x=>x.classList.remove('active')); if(el)el.classList.add('active'); document.getElementById('mainSearch').value=''; applyFilter(); }
+function applyFilter(){
+  let v=0;
+  document.querySelectorAll('#cat-grid .product-card').forEach(c=>{ const s=activeF==='all'||c.dataset.cat===activeF; c.style.display=s?'':'none'; if(s)v++; });
+  updCount(v); document.getElementById('noRes').style.display=v===0?'block':'none';
+}
+function updCount(n){ const el=document.getElementById('catCount'); if(el)el.textContent=n+' product'+(n!==1?'s':''); }
+function liveSearch(q){
+  showPage('catalog'); activeF='all';
+  document.querySelectorAll('.sb-item').forEach(x=>x.classList.remove('active'));
+  document.querySelector('.sb-item').classList.add('active');
+  const s=q.toLowerCase().trim(); let v=0;
+  document.querySelectorAll('#cat-grid .product-card').forEach(c=>{
+    c.style.display='';
+    if(!s){v++;return;}
+    const n=c.querySelector('.pc-name').textContent.toLowerCase();
+    const ct=c.querySelector('.pc-cat').textContent.toLowerCase();
+    const ok=n.includes(s)||ct.includes(s);
+    c.style.display=ok?'':'none'; if(ok)v++;
+  });
+  updCount(v); document.getElementById('noRes').style.display=v===0&&s?'block':'none';
+}
+
+// Modal
+function openModal(id){
+  const p=allP.find(x=>x.id===id); if(!p) return;
+  document.getElementById('mTitle').textContent=p.name;
+  const old=p.old||p.oldprice?`<span class="m-old">${p.old||p.oldprice}</span>`:'';
+  const specs=(p.specs||[]).map(s=>`<div class="srow"><div class="sk">${s.k}</div><div class="sv">${s.v}</div></div>`).join('');
+  const hasImg=p.image&&p.image.startsWith('http');
+  const imgBox=hasImg?`<div class="modal-img"><img src="${p.image}" alt="${p.name}" onerror="this.style.display='none'"></div>`:`<div class="modal-img">${p.emoji||'🔧'}</div>`;
+  document.getElementById('mBody').innerHTML=`
+    <div class="modal-top">${imgBox}
+      <div><div class="m-cat">${CL[p.cat]||p.cat}</div><div class="m-name">${p.name}</div><div class="m-desc">${p.desc||p.description||''}</div>
+        <div class="m-price-row"><span class="m-price">${p.price}</span>${old}</div>
+      </div>
+    </div>
+    ${specs?`<div class="specs-sec"><div class="specs-lbl">Specifications</div><div class="specs-tbl">${specs}</div></div>`:''}
+    <div class="m-avail"><div class="avail-dot"></div>In Stock · Nationwide Delivery · COD Available</div>
+    <a class="m-wa-btn" href="${wa(p.wa||'Hi! I want to order '+p.name+' from Burhani Tools.')}" target="_blank">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Order This Product on WhatsApp
+    </a>
+    <div class="m-wa-note">Opens WhatsApp with a pre-filled message for this product</div>`;
+  document.getElementById('modalBg').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){ document.getElementById('modalBg').classList.remove('open'); document.body.style.overflow=''; }
+function closeBg(e){ if(e.target===document.getElementById('modalBg')) closeModal(); }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+// ── HOME PAGE SEARCH ──
+function homeSearch(q){
+  const s = q.toLowerCase().trim();
+  const resultsDiv = document.getElementById('homeSearchResults');
+  const grid = document.getElementById('homeSearchGrid');
+  const empty = document.getElementById('homeSearchEmpty');
+  const title = document.getElementById('homeSearchTitle');
+  if(!s){ if(resultsDiv) resultsDiv.style.display='none'; return; }
+  const matched = allP.filter(p =>
+    (p.name||'').toLowerCase().includes(s) ||
+    (CL[p.cat]||'').toLowerCase().includes(s) ||
+    (p.desc||p.description||'').toLowerCase().includes(s)
+  );
+  if(resultsDiv) resultsDiv.style.display = 'block';
+  if(matched.length === 0){
+    if(grid) grid.innerHTML = '';
+    if(empty) empty.style.display = 'block';
+    if(title) title.textContent = 'No results for "' + q + '"';
+  } else {
+    if(empty) empty.style.display = 'none';
+    if(grid) grid.innerHTML = matched.map(cardHTML).join('');
+    if(title) title.textContent = matched.length + ' result' + (matched.length !== 1 ? 's' : '') + ' for "' + q + '"';
+  }
+}
+function clearHomeSearch(){
+  const inp = document.querySelector('[oninput="homeSearch(this.value)"]');
+  if(inp) inp.value = '';
+  const r = document.getElementById('homeSearchResults');
+  if(r) r.style.display = 'none';
+}
+
+
+// ── GLOBAL SEARCH BAR ──
+function globalSearch(q){
+  const s=q.toLowerCase().trim();
+  if(document.getElementById('page-home').classList.contains('active')){
+    const r=document.getElementById('homeSearchResults');
+    const g=document.getElementById('homeSearchGrid');
+    const e=document.getElementById('homeSearchEmpty');
+    const t=document.getElementById('homeSearchTitle');
+    if(!s){if(r)r.style.display='none';return;}
+    const m=allP.filter(p=>(p.name||'').toLowerCase().includes(s)||(CL[p.cat]||'').toLowerCase().includes(s)||(p.desc||'').toLowerCase().includes(s));
+    if(r)r.style.display='block';
+    if(m.length===0){if(g)g.innerHTML='';if(e)e.style.display='block';if(t)t.textContent='No results for "'+q+'"';}
+    else{if(e)e.style.display='none';if(g)g.innerHTML=m.map(cardHTML).join('');if(t)t.textContent=m.length+' result'+(m.length!==1?'s':'')+' for "'+q+'"';}
+  } else {
+    liveSearch(q);
+    const ms=document.getElementById('mainSearch');
+    if(ms)ms.value=q;
+  }
+}
+function doGlobalSearch(){const i=document.getElementById('globalSearchInput');if(i)globalSearch(i.value);}
+function clearHomeSearch(){const i=document.getElementById('globalSearchInput');if(i)i.value='';const r=document.getElementById('homeSearchResults');if(r)r.style.display='none';}
+
+</script>
+</body>
+</html>
